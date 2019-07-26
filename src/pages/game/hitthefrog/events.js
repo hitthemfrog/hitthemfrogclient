@@ -1,6 +1,8 @@
 import * as THREE from 'three'
+import store from '../../../store/store'
+import { actions } from '../../../store/game.action.reducer.type'
 
-export function mouseMoveListener(camera, scene, clickedObjUUidArray) {
+export function mouseMoveListener(camera, scene) {
   let raycaster = new THREE.Raycaster()
   let mouse = new THREE.Vector2()
 
@@ -11,12 +13,13 @@ export function mouseMoveListener(camera, scene, clickedObjUUidArray) {
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
     let intersects = raycaster.intersectObjects(scene.children, true);
-    clickedObjUUidArray = intersects.map(intersect => intersect.object.uuid)
+    let clickedObjUUidArray = intersects.map(intersect => intersect.object.uuid)
+    store.dispatch(actions.setClickedIntersections(clickedObjUUidArray))
   }
   return onMouseMove
 }
 
-export function mouseClickListener(camera, scene) {
+export function mouseClickListener(camera, scene, objectDictionary) {
   let raycaster = new THREE.Raycaster()
   let mouse = new THREE.Vector2()
 
@@ -30,7 +33,10 @@ export function mouseClickListener(camera, scene) {
     console.log('clicked box ' + intersects.reduce((c, e) => c + e.object.uuid + ', ', ''))
     
     // Delete on object
-    if (intersects.length !== 0) scene.remove(intersects[0].object)
+    if (intersects.length !== 0) {
+      scene.remove(intersects[0].object)
+      scene.remove(objectDictionary.frog)
+    }
   }
   return onMouseClick
 }

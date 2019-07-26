@@ -10,7 +10,7 @@ class Game extends Component {
     let setup = sceneSetup(this.gameThree)
     let models = initModels(setup.scene)
     let clickedObjUUidArray = []
-    mouseClickListener(setup.camera, setup.scene)
+    mouseClickListener(setup.camera, setup.scene, models)
     mouseMoveListener(setup.camera, setup.scene, clickedObjUUidArray)
     loop(setup.scene, setup.renderer, setup.camera, models, clickedObjUUidArray)
   }

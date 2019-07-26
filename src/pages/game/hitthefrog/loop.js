@@ -1,6 +1,11 @@
-export default function (scene, renderer, camera, objectDictionary, clickedObjUUidArray) {
+import store from '../../../store/store'
+
+export default function (scene, renderer, camera, objectDictionary) {
   
   function loop () {
+    let state = store.getState()
+    let { clickedObjUUidArray } = state
+
     requestAnimationFrame(loop);
     let { cubes, FROG_SCENE } = objectDictionary
     cubes.forEach(cube => {
