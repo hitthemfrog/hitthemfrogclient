@@ -10,7 +10,8 @@ export class HomePage extends Component {
                 <div className="startGameStyle col s12 m12 l12">
                     <h1>HitThatFrogs</h1>
                     <div>
-                        <button className="btn-main"><Link className="linkStyle" to="/room">START</Link></button>
+                        <Link  to="/room" className="btn-main linkStyle" id="new-game-button">New Game</Link>
+                        {/* <button className="linkStyle"><Link className="btn-main"  to="/room">START</Link></button> */}
                     </div>
                 </div>
             // </div>
