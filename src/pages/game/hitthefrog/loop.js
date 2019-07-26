@@ -3,6 +3,14 @@ import { paintObjectOnIntersect } from './helpers'
 
 export default function (scene, renderer, camera, objectDictionary) {
   
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  window.addEventListener('resize', onWindowResize, false)
+  
   function loop () {
     let state = store.getState()
     let { intersects, frogs } = state
