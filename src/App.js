@@ -1,0 +1,26 @@
+import React from 'react';
+import { BrowserRouter as Router , Route, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import store from './store'
+import RoomPage from './pages/Room/Room'
+import HomePage from './pages/Home/Home'
+
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <Provider store={ store }>
+        <Router>
+          <Switch>
+            {/* <PrivateRoute exact path="/" component={ Home } /> */}
+            <Route exact path="/" component={ HomePage } />
+            <Route exact path='/room' component={ RoomPage } />
+          </Switch>
+        </Router>
+      </Provider>
+    </div>
+  );
+}
+
+export default App;
