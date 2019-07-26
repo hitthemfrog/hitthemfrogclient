@@ -1,13 +1,26 @@
 import React from 'react';
-import {} from 'react-redux'
-import './App.css';
+import { BrowserRouter as Router , Route, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import store from './store'
+import RoomPage from './pages/Room/Room'
+import HomePage from './pages/Home/Home'
 import Game from './pages/game/game'
 
+import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <Game />
+      <Provider store={ store }>
+        <Router>
+          <Switch>
+            {/* <PrivateRoute exact path="/" component={ Home } /> */}
+            <Route exact path="/" component={ HomePage } />
+            <Route exact path='/room' component={ RoomPage } />
+            <Route exact path='/game' component={ Game } />
+          </Switch>
+        </Router>
+      </Provider>
     </div>
   );
 }

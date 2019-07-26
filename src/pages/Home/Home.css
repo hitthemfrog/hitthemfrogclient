@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.startGameStyle{
+    top: 3%;
+    left: 22%;
+    position: absolute;
+}
+
+.startGameStyle h1 {
+    /* font-family: 'Monofett', cursive; */
+    font-family: 'Finger Paint', cursive;
+    font-size: 95px;
+}
+
+.linkStyle{
+    text-decoration: none;
+    color: rgb(105, 235, 88);
+}
+
+.btn-main {
+    /* cursor: pointer; */
+    border-radius: 5px;
+    background:rgba(0,0,0,.5);
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 1.3px;
+    padding: 16px 40px;
+    text-decoration: none;
+    text-transform: uppercase;
+    /* display: inline; */
+}
+
+.btn-main :hover{
+    font-size: 20px;
+    /* background-color: rgb(105, 226, 105); */
+
+}
