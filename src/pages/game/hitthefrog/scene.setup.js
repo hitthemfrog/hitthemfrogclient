@@ -9,7 +9,8 @@ export default function (el) {
   let height = window.innerHeight
   renderer.setSize(width, height)
   scene.add(light)
-  camera.position.z = 5
+  camera.position.z = 6
+  camera.position.y = 1
 
   el.appendChild(renderer.domElement)
   return {

@@ -6,9 +6,9 @@ import loop from './hitthefrog/loop'
 
 
 class Game extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     let setup = sceneSetup(this.gameThree)
-    let models = initModels(setup.scene)
+    let models = await initModels(setup.scene)
     let clickedObjUUidArray = []
     mouseClickListener(setup.camera, setup.scene, models)
     mouseMoveListener(setup.camera, setup.scene, clickedObjUUidArray)

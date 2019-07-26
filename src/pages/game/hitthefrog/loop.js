@@ -9,13 +9,10 @@ export default function (scene, renderer, camera, objectDictionary) {
 
 
     requestAnimationFrame(loop);
-    let { cubes } = objectDictionary
-    cubes.forEach(cube => {
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      if (frogs) frogs.forEach(f => f.rotation.x += 0.01)
-      paintObjectOnIntersect(scene, intersects)
+    if (frogs) frogs.forEach(f => {
+      f.rotation.y += 0.065
     })
+    paintObjectOnIntersect(scene, intersects)
     renderer.render(scene, camera);
   }
 
