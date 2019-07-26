@@ -5,6 +5,10 @@ let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 let renderer = new THREE.WebGLRenderer();
 
+// Used for setTimeout
+let timer = 0
+let isGreen = true
+
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 let cubes = [] 
@@ -60,17 +64,33 @@ export function mount (el) {
   el.appendChild(renderer.domElement);
 }
 
-export function animate () {
+
+export function animate (currentTime) {
   requestAnimationFrame(animate);
+  
+  const delta = currentTime - timer
+
   cubes.forEach(cube => {
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
+
     if (intersectsObjUUID.includes(cube.uuid)) {
       cube.material.color.set(0xff0000)
     } else {
       cube.material.color.set(0x00ff00)
     }
+
+    if (isGreen) cube.scale.x += 0.02 //cube.material.color.set(0x0000ff);
+    else cube.scale.x -= 0.02 //cube.material.color.set(0x00ff00)
   })
+
+  if (!timer || delta >= 1000 ) {
+    timer = currentTime
+    isGreen = !isGreen
+  }
+  
+  
+
   renderer.render(scene, camera);
 };
 
