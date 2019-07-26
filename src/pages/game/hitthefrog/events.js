@@ -28,6 +28,9 @@ export function mouseClickListener(camera, scene) {
     raycaster.setFromCamera(mouse, camera);
     let intersects = raycaster.intersectObjects(scene.children, true);
     console.log('clicked box ' + intersects.reduce((c, e) => c + e.object.uuid + ', ', ''))
+    
+    // Delete on object
+    if (intersects.length !== 0) scene.remove(intersects[0].object)
   }
   return onMouseClick
 }
