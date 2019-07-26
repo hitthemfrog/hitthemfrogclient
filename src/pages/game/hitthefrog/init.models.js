@@ -1,16 +1,15 @@
 import * as THREE from 'three'
+import store from '../../../store/store'
+import { actions } from '../../../store/game.action.reducer.type'
 
 function importFrog (scene) {
   window.THREE = THREE;
-  let FROG_SCENE
   import('three/examples/js/loaders/GLTFLoader').then(() => {
-    // Note : window. is required here to make it works.
     const gltfLoader = new window.THREE.GLTFLoader();
-    // Have fun here
     gltfLoader.load('./models/simple.frog.glb', function (gltf) {
-      FROG_SCENE = gltf.scene
-      scene.add(FROG_SCENE)
-      return FROG_SCENE
+      let frogScene = gltf.scene
+      store.dispatch(actions.addFrogScene(frogScene))
+      scene.add(frogScene)
     }, undefined, function (error) {
       console.error(error)
     })
