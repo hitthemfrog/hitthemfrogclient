@@ -56,12 +56,15 @@ export default async function (scene) {
   for (let i = 0; i < 9; i++) {
     if (i === index) cube.position.set(...pos[i])
     else {
-      let frog = frogObj.length < 9 ? await importFrog(scene) : scene.add(frogObj[count])
-      console.log('count',count)
+      let frog = (frogObj.length < 9) ? await importFrog(scene) : frogObj[count]
+      console.log('count',frogObj)
+
       count++
 
       // let frog = await importFrog(scene)
+      // frog.position.set(-2, 2, 0)
       frog.position.set(...pos[i])
+      scene.add(frog)
     }
 
     frogs.push()
