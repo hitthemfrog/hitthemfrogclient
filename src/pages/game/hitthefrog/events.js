@@ -33,11 +33,17 @@ export function mouseClickListener(camera, scene, objectDictionary) {
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
     let intersects = raycaster.intersectObjects(scene.children, true);
-    if (intersects) {
+    if (intersects.length !== 0) {
       // removeObjectOnIntersect(scene, intersects)
+      // console.log('Clicked: ', scene.getObjectByName('monkeyObjectScene'))      
+      if (intersects[0].object.parent.name === 'monkeyObjectScene') store.dispatch(actions.addHit())
+      else store.dispatch(actions.addMiss())
+
+      console.log('POINT', store.getState().hitPoints)
+      console.log('PENALTY', store.getState().missPoints)
+      
       removeAllObjects(scene, intersects)
       initModels(scene)
-      // console.log('aaaa', store.getState())
     }
   }
   return onMouseClick

@@ -2,16 +2,16 @@ import * as THREE from 'three'
 import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
 
-async function importFrog (scene) {
+async function importModelObject (scene, model) {
   return new Promise((resolve, reject) => {
     window.THREE = THREE;
     import('three/examples/js/loaders/GLTFLoader').then(() => {
       const gltfLoader = new window.THREE.GLTFLoader();
-      gltfLoader.load('./models/simple.frog.glb', function (gltf) {
-        let frogScene = gltf.scene
-        store.dispatch(actions.addFrogScene(frogScene))
-        scene.add(frogScene)
-        resolve(frogScene)
+      gltfLoader.load(model, function (gltf) {
+        let modelScene = gltf.scene
+        store.dispatch(actions.addFrogScene(modelScene))
+        scene.add(modelScene)
+        resolve(modelScene)
       }, undefined, function (error) {
         console.error(error)
         reject(error)
@@ -32,37 +32,24 @@ let pos = [
   [2, -2, 0],
 ]
 
-function boxMesh(scene) {
-  let cube = store.getState().frogs[0]
-
-  if (!cube) {
-    let geometry = new THREE.BoxGeometry(1, 1, 1);
-    let material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-    cube = new THREE.Mesh(geometry, material);
-    store.dispatch(actions.addFrogScene(cube))
-  }
-
-  scene.add(cube)
-  return cube
-}
-
 export default async function (scene) {
+  const frogModel = '/models/simple.frog.glb'
+  const monkeyModel = '/models/simple.frog.sad.glb'
   let frogs = []
-  let cube = boxMesh(scene)
   let frogObj = store.getState().frogs
+  let monkey = frogObj.length ?  frogObj[0] : await importModelObject(scene, monkeyModel)
   let count = 1
   
   let index = Math.round(Math.random() * 8)
   for (let i = 0; i < 9; i++) {
-    if (i === index) cube.position.set(...pos[i])
+    if (i === index)  {
+      monkey.position.set(...pos[i])
+      monkey.name = 'monkeyObjectScene'
+      scene.add(monkey)
+    } 
     else {
-      let frog = (frogObj.length < 9) ? await importFrog(scene) : frogObj[count]
-      console.log('count',frogObj)
-
-      count++
-
-      // let frog = await importFrog(scene)
-      // frog.position.set(-2, 2, 0)
+      let frog = (frogObj.length < 9) ? await importModelObject(scene, frogModel) : frogObj[count++]
+      
       frog.position.set(...pos[i])
       scene.add(frog)
     }
@@ -70,7 +57,6 @@ export default async function (scene) {
     frogs.push()
   }
   
-  console.log(frogObj)
   return { 
     frogs,
   }
