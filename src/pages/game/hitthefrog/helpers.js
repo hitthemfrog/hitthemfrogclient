@@ -24,6 +24,10 @@ export function defaultPaint() {
 }
 
 export function paintObjectOnIntersect(scene, intersects) {
+  if (intersects.length === 0) scene.children.forEach(obj => {
+    if (obj.type === 'Scene') obj.children.forEach(objChild => objChild.material.color.set(0xffffff))
+  })
+
   intersects.forEach(intersect => {
     let hasParent = intersect.object.parent
     let isRootParent = hasParent && !hasParent.parent
@@ -34,7 +38,7 @@ export function paintObjectOnIntersect(scene, intersects) {
         m.material.color.set(0xff0000)
       })
     } else {
-      intersect.object.material.color.set(0xff0000)
+      intersect.object.material.color.set(0xffffff)
     }
   })
 }
@@ -43,17 +47,3 @@ export function removeAllObjects(scene, intersect) {
   let scenes = scene.children.filter(scn => scn.type !== 'HemisphereLight')
   if (intersect.length !== 0) scenes.forEach(scn => scene.remove(scn))
 }
-
-// export function randomFromState(scene) {
-//   let index = Math.round(Math.random() * 8)
-//   let sceneObj = store.getState().frogs
-//   let count = 1
-
-//   for (let i = 0; i < sceneObj.length; i++) {
-//     if (i === index) scene.add(sceneObj[0])
-//     else {
-//       scene.add(sceneObj[count])
-//       count++;
-//     }
-//   }
-// }

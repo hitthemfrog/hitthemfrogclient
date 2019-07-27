@@ -11,15 +11,37 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
   window.addEventListener('resize', onWindowResize, false)
   
+
+  let frogLegAnimationForward = true
   function loop () {
     let state = store.getState()
     let { intersects, frogs } = state
 
     let katakkatak = scene.children.filter(e => e.name === 'Scene')
-    let kakikaki = katakkatak[1].children.filter(e => e.name !== 'body')
-    if (kakikaki) {
-      kakikaki[0].rotation.x += 0.1
-    }
+    katakkatak.forEach(kakinya => {
+      let kakikaki = kakinya.children.filter(e => e.name !== 'body')
+      kakikaki.forEach(el => {
+        if (el.rotation.x >= 0.25) {
+          frogLegAnimationForward = false
+        }
+        if (el.rotation.x <= -0.25) {
+          frogLegAnimationForward = true
+        }
+        el.rotation.x += 0.02 * ((frogLegAnimationForward) ? 1 : -1)
+        // console.log(el.rotation.x)
+        // if (el.scale.x === 0.34881994128227234) {
+        //     if (el.rotation.x >= 0.3) {
+        //       el.rotation.x -= 0.3
+        //     }
+        // }
+        // console.log(el)
+        // el.rotation.x += 0.3
+        // el.rotation.y -= 0.3
+        // el.rotation.z -= 0.3
+      })
+      // debugger
+    })
+
 
     setScoreHud('test HUD ' + Math.random())
 
