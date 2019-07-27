@@ -32,13 +32,42 @@ let pos = [
   [2, -2, 0],
 ]
 
+function boxMesh(scene) {
+  let cube = store.getState().frogs[0]
+
+  if (!cube) {
+    let geometry = new THREE.BoxGeometry(1, 1, 1);
+    let material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+    cube = new THREE.Mesh(geometry, material);
+    store.dispatch(actions.addFrogScene(cube))
+  }
+
+  scene.add(cube)
+  return cube
+}
+
 export default async function (scene) {
   let frogs = []
+  let cube = boxMesh(scene)
+  let frogObj = store.getState().frogs
+  let count = 1
+  
+  let index = Math.round(Math.random() * 8)
   for (let i = 0; i < 9; i++) {
-    let frog = await importFrog(scene)
-    frog.position.set(...pos[i])
+    if (i === index) cube.position.set(...pos[i])
+    else {
+      let frog = frogObj.length < 9 ? await importFrog(scene) : scene.add(frogObj[count])
+      console.log('count',count)
+      count++
+
+      // let frog = await importFrog(scene)
+      frog.position.set(...pos[i])
+    }
+
     frogs.push()
   }
+  
+  console.log(frogObj)
   return { 
     frogs,
   }
