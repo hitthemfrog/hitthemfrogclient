@@ -15,7 +15,7 @@ export default function (el) {
   hudBitmap.font = "Normal 40px Arial";
   hudBitmap.textAlign = 'center';
   hudBitmap.fillStyle = "rgba(245,245,245,0.75)";
-  hudBitmap.fillText('', width / 2, height / 2);
+  hudBitmap.fillText('Test', width / 2, height / 2);
 
   
   // Create also a custom scene for HUD.
