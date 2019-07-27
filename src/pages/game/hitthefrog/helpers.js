@@ -1,3 +1,5 @@
+// import store from '../../../store/store'
+
 export function removeObjectOnIntersect(scene, intersects) {
   intersects.forEach(intersect => {
     let hasParent = intersect.object.parent
@@ -36,3 +38,22 @@ export function paintObjectOnIntersect(scene, intersects) {
     }
   })
 }
+
+export function removeAllObjects(scene, intersect) {
+  let scenes = scene.children.filter(scn => scn.type !== 'HemisphereLight')
+  if (intersect.length !== 0) scenes.forEach(scn => scene.remove(scn))
+}
+
+// export function randomFromState(scene) {
+//   let index = Math.round(Math.random() * 8)
+//   let sceneObj = store.getState().frogs
+//   let count = 1
+
+//   for (let i = 0; i < sceneObj.length; i++) {
+//     if (i === index) scene.add(sceneObj[0])
+//     else {
+//       scene.add(sceneObj[count])
+//       count++;
+//     }
+//   }
+// }

@@ -1,7 +1,9 @@
 import * as THREE from 'three'
 import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
-import { removeObjectOnIntersect } from './helpers'
+// import { removeObjectOnIntersect } from './helpers'
+import { removeAllObjects } from './helpers'
+import initModels from './init.models'
 
 
 export function mouseMoveListener(camera, scene) {
@@ -32,7 +34,10 @@ export function mouseClickListener(camera, scene, objectDictionary) {
     raycaster.setFromCamera(mouse, camera);
     let intersects = raycaster.intersectObjects(scene.children, true);
     if (intersects) {
-      removeObjectOnIntersect(scene, intersects)
+      // removeObjectOnIntersect(scene, intersects)
+      removeAllObjects(scene, intersects)
+      initModels(scene)
+      // console.log('aaaa', store.getState())
     }
   }
   return onMouseClick
