@@ -34,13 +34,13 @@ export function mouseClickListener(camera, scene, sceneHUD, objectDictionary) {
     raycaster.setFromCamera(mouse, camera);
     let intersects = raycaster.intersectObjects(scene.children, true);
 
-    
-
     if (intersects.length !== 0) {
       if (intersects[0].object.parent.name === 'monkeyObjectScene') store.dispatch(actions.addHit())
       else store.dispatch(actions.addMiss())
 
-      removeAllObjects(scene, intersects)
+      store.dispatch(actions.setClicked(true))
+
+      removeAllObjects(scene)
       initModels(scene)
     }
   }

@@ -43,7 +43,7 @@ export function paintObjectOnIntersect(scene, intersects) {
   })
 }
 
-export function removeAllObjects(scene, intersect) {
+export function removeAllObjects(scene) {
   let scenes = scene.children.filter(scn => scn.type !== 'HemisphereLight')
-  if (intersect.length !== 0) scenes.forEach(scn => scene.remove(scn))
+  scenes.forEach(scn => scene.remove(scn))
 }

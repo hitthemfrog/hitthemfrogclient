@@ -56,20 +56,22 @@ const xyCoordinate = [
   [6, -2, 0],
 ]
 
-// function randomCoordinate() {
-//   let result = []
-//   let i = 0
+function randomCoordinate() {
+  let result = []
+  let i = 0
 
-//   while (i < 9) {
-//     let coordinate = Math.round(Math.random() * 21)
+  while (i < 9) {
+    let coordinate = Math.round(Math.random() * 20)
 
-//     if (!result.includes(coordinate)) {
+    if (!result.includes(coordinate)) result.push(coordinate) && i++
+  }
 
-//     }
-//   }
+  for(let i = 0; i < 9; i ++) {
+    result[i] = xyCoordinate[result[i]]
+  }
   
-  
-// }
+  return result
+}
 
 export default async function (scene) {
   const frogModel = '/models/simple.frog.glb'
@@ -79,20 +81,19 @@ export default async function (scene) {
   let monkey = frogObj.length ?  frogObj[0] : await importModelObject(scene, monkeyModel)
   let count = 1
   
-  // let coordinate = randomCoordinate()
-  // console.log(xyCoordinate.length)
+  let coordinate = randomCoordinate()
   let index = Math.round(Math.random() * 8)
   for (let i = 0; i < 9; i++) {
 
     if (i === index)  {
-      monkey.position.set(...pos[i])
+      monkey.position.set(...coordinate[i])
       monkey.name = 'monkeyObjectScene'
       scene.add(monkey)
     } 
     else {
       let frog = (frogObj.length < 9) ? await importModelObject(scene, frogModel) : frogObj[count++]
       
-      frog.position.set(...pos[i])
+      frog.position.set(...coordinate[i])
       scene.add(frog)
     }
 

@@ -3,14 +3,16 @@ export const ACTTYPE = {
   ADD_GROUP_SCENE_FROG_UUID: 'ADD_GROUP_SCENE_FROG_UUID',
   REMOVE_GROUP_SCENE_FROG_UUID: 'REMOVE_GROUP_SCENE_FROG_UUID',
   ADD_HIT: 'ADD_HIT',
-  ADD_MISS: 'ADD_MISS'
+  ADD_MISS: 'ADD_MISS',
+  IS_CLICKED: 'IS_CLICKED'
 }
 
 const defaultState = {
   intersects: [],
   frogs: [],
   hitPoints: 0,
-  missPoints: 0
+  missPoints: 0,
+  isClicked: false
 }
 
 export function reducer (state = defaultState, action) {
@@ -41,6 +43,10 @@ export function reducer (state = defaultState, action) {
     }
     case ACTTYPE.ADD_MISS: {
       state.missPoints += 1
+      return state
+    }
+    case ACTTYPE.IS_CLICKED: {
+      state.isClicked = action.payload
       return state
     }
     default:
@@ -75,6 +81,12 @@ export const actions = {
   addMiss () {
     return {
       type: ACTTYPE.ADD_MISS
+    }
+  },
+  setClicked (status) {
+    return {
+      type: ACTTYPE.IS_CLICKED,
+      payload: status
     }
   } 
 

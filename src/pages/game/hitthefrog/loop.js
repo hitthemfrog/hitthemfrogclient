@@ -1,5 +1,8 @@
 import store from '../../../store/store'
-import { paintObjectOnIntersect } from './helpers'
+import { actions } from '../../../store/game.action.reducer.type'
+import { paintObjectOnIntersect, removeAllObjects } from './helpers'
+import initModels from './init.models'
+
 
 export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreHud) {
    
@@ -11,12 +14,14 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
   window.addEventListener('resize', onWindowResize, false)
   
-  
-
   let frogLegAnimationForward = true
-  function loop () {
+  let timer = 0
+  let number = 6
+
+  function loop (currentTime) {
     let state = store.getState()
     let { intersects, frogs } = state
+    const delta = currentTime - timer
 
     let katakkatak = scene.children.filter(e => e.name === 'Scene')
     katakkatak.forEach(kakinya => {
@@ -43,8 +48,19 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
       // debugger
     })
 
+    
 
-    setScoreHud(`Hit: ${store.getState().hitPoints} Miss: ${store.getState().missPoints}`)
+    setScoreHud(`Hit: ${store.getState().hitPoints} Miss: ${store.getState().missPoints} 
+    Count Down: ${number}`)
+
+    if (delta >= 3000 ) {
+      timer = currentTime
+      number -=1
+      removeAllObjects(scene)
+      initModels(scene) 
+      if (!store.getState().isClicked) store.dispatch(actions.addMiss())
+      store.dispatch(actions.setClicked(false))
+    }
 
     requestAnimationFrame(loop);
     if (frogs) frogs.forEach(f => {
