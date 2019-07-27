@@ -1,6 +1,10 @@
 import store from '../../../store/store'
 import { paintObjectOnIntersect } from './helpers'
 
+
+
+
+
 export default function (scene, renderer, camera, objectDictionary) {
   
   function onWindowResize() {
@@ -14,7 +18,12 @@ export default function (scene, renderer, camera, objectDictionary) {
   function loop () {
     let state = store.getState()
     let { intersects, frogs } = state
-
+    
+    let katakkatak = scene.children.filter(e => e.name === 'Scene')
+    let kakikaki = katakkatak[1].children.filter(e => e.name !== 'body')
+    if (kakikaki) {
+      kakikaki[0].rotation.x += 0.1
+    }
 
     requestAnimationFrame(loop);
     if (frogs) frogs.forEach(f => {
