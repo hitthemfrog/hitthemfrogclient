@@ -23,7 +23,8 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     let { intersects, frogs } = state
     const delta = currentTime - timer
 
-    let katakkatak = scene.children.filter(e => e.name === 'Scene')
+    if (!store.getState().isClicked) {
+      let katakkatak = scene.children.filter(e => e.name === 'Scene')
     katakkatak.forEach(kakinya => {
       let kakikaki = kakinya.children.filter(e => e.name !== 'body')
       kakikaki.forEach(el => {
@@ -47,6 +48,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
       })
       // debugger
     })
+    }
 
     
 
@@ -63,7 +65,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     }
 
     requestAnimationFrame(loop);
-    if (frogs) frogs.forEach(f => {
+    if (frogs && !store.getState().isClicked) frogs.forEach(f => {
       f.rotation.y += 0.065
     })
 
