@@ -11,6 +11,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
   window.addEventListener('resize', onWindowResize, false)
   
+  
 
   let frogLegAnimationForward = true
   function loop () {
@@ -43,7 +44,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     })
 
 
-    setScoreHud('test HUD ' + Math.random())
+    setScoreHud(`Hit: ${store.getState().hitPoints} Miss: ${store.getState().missPoints}`)
 
     requestAnimationFrame(loop);
     if (frogs) frogs.forEach(f => {

@@ -15,7 +15,7 @@ export default function (el) {
   hudBitmap.font = "Normal 40px Arial";
   hudBitmap.textAlign = 'center';
   hudBitmap.fillStyle = "rgba(245,245,245,0.75)";
-  hudBitmap.fillText('Test', width / 2, height / 2);
+  hudBitmap.fillText('', width / 2, height / 2);
 
   
   // Create also a custom scene for HUD.
@@ -31,6 +31,7 @@ export default function (el) {
   // Create plane to render the HUD. This plane fill the whole screen.
   let planeGeometry = new THREE.PlaneGeometry(width, height);
   let plane = new THREE.Mesh(planeGeometry, material);
+  plane.position.set(0, (window.innerHeight/2) - 50, 0)
   sceneHUD.add(plane);
 
   let cameraHUD = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 0, 30)

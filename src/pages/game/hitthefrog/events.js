@@ -22,7 +22,7 @@ export function mouseMoveListener(camera, scene) {
   return onMouseMove
 }
 
-export function mouseClickListener(camera, scene, objectDictionary) {
+export function mouseClickListener(camera, scene, sceneHUD, objectDictionary) {
   let raycaster = new THREE.Raycaster()
   let mouse = new THREE.Vector2()
 
@@ -33,7 +33,9 @@ export function mouseClickListener(camera, scene, objectDictionary) {
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
     let intersects = raycaster.intersectObjects(scene.children, true);
-    console.log(scene)
+
+    
+
     if (intersects.length !== 0) {
       if (intersects[0].object.parent.name === 'monkeyObjectScene') store.dispatch(actions.addHit())
       else store.dispatch(actions.addMiss())
