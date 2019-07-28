@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { dummyData } from './helpers'
 
-export default function (el) {
+export default function (el, socket) {
   let scene = new THREE.Scene();
   let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 4)
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);

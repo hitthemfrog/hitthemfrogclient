@@ -1,9 +1,6 @@
 import * as THREE from 'three'
 import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
-// import { removeObjectOnIntersect } from './helpers'
-// import { removeAllObjects } from './helpers'
-// import initModels from './init.models'
 
 
 export function mouseMoveListener(camera, scene) {
@@ -35,13 +32,16 @@ export function mouseClickListener(camera, scene, socket, objectDictionary) {
     let intersects = raycaster.intersectObjects(scene.children, true);
 
     if (intersects.length !== 0 && !store.getState().isClicked) {
+      const roomName = localStorage.getItem('roomName')
+      const playerName = localStorage.getItem('player')
       const state = store.getState()
+
       if (intersects[0].object.parent.name === 'monkeyObjectScene') store.dispatch(actions.addHit())
       else store.dispatch(actions.addMiss())
 
       store.dispatch(actions.setClicked(true))
 
-      socket.emit('setPlayerScore', { hit: state.hitPoints, miss: state.missPoints })
+      socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: state.hitScore, miss: state.missScore })
     }
   }
   return onMouseClick

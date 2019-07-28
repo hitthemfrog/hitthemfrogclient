@@ -4,7 +4,7 @@ import { paintObjectOnIntersect, removeAllObjects } from './helpers'
 import initModels from './init.models'
 
 
-export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreHud) {
+export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreHud, socket) {
    
   function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -15,6 +15,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
   window.addEventListener('resize', onWindowResize, false)
   
   let frogLegAnimationForward = true
+  const state = store.getState()
   let timer = 0
   let number = 6
 
@@ -60,8 +61,13 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
       number -=1
       removeAllObjects(scene)
       initModels(scene) 
+      
       if (!store.getState().isClicked) store.dispatch(actions.addMiss())
       store.dispatch(actions.setClicked(false))
+
+      const roomName = localStorage.getItem('roomName')
+      const playerName = localStorage.getItem('player')
+      socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: state.hitScore, miss: state.missScore })
     }
 
     requestAnimationFrame(loop);

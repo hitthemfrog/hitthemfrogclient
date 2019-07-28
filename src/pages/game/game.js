@@ -8,6 +8,9 @@ import io from 'socket.io-client';
 
 const socket = io('http://localhost:3000');
 
+let playerDataListener = function (playerList) {
+  console.log(playerList)
+}
 
 class Game extends Component {
   async componentDidMount() {
@@ -17,8 +20,16 @@ class Game extends Component {
     let clickedObjUUidArray = []
     mouseClickListener(setup.camera, setup.scene, socket, models)
     mouseMoveListener(setup.camera, setup.scene, clickedObjUUidArray)
-    loop(setup.scene, setup.renderer, setup.camera, sceneHUD, cameraHUD, setScoreHUD)
+    loop(setup.scene, setup.renderer, setup.camera, sceneHUD, cameraHUD, setScoreHUD, socket)
+
+    socket.on('playersData', playerDataListener)
+    
   }
+
+  componentWillUnmount() {
+    socket.removeListener('playersData', playerDataListener)
+  }
+
   render() {
     return (
       <div ref={ref => (this.gameThree = ref)} />

@@ -49,6 +49,9 @@ export function removeAllObjects(scene) {
 }
 
 export function dummyData() {
+  // const playerName = Math.random().toString(36).substring(7)
+  
+  // socket.on('getAppRooms', data => console.log(data))
   localStorage.setItem('player', 'P1')
-  localStorage.setItem('roomName', 'Duel Room 1')
+  localStorage.setItem('roomName', 'Room Duel 1')
 }
