@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-
 import './Home.css';
 
 export class HomePage extends Component {
@@ -79,7 +78,7 @@ export class HomePage extends Component {
                                 placeholder=" Input Name here..."
                                 onChange={this.onChange}
                                 type="text"
-                            />
+                                />
                         <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
                         <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">New Game</button>
                         </form>

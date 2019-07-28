@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
 import RoomCard from './RoomCard'
 import Loading from '../../component/Loading'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 export class Room extends Component {
     state = {
@@ -140,6 +140,8 @@ export class Room extends Component {
                         <div className='col s12 m6 l6'>
                         <span className='playerNameStyle'>{this.state.playerName}</span>
                             <button onClick={() => this.userLogout()} className="btn">Exit</button>
+                            <Link to="/uploadimage" className="btn">upload image</Link>
+
                         <form onSubmit={this.cobaBikinRoom}>
                             <input
                                 style={styleInput}

@@ -5,6 +5,7 @@ import store from './store'
 import './App.css';
 import RoomPage from './pages/Room/Room'
 import RoomPageDetail from './pages/Room/RoomDetail'
+import Uploadimage from './pages/UploadImage/UploadImage'
 import HomePage from './pages/Home/Home'
 import io from 'socket.io-client';
 
@@ -23,6 +24,7 @@ function App() {
             {/* <Route exact path='/room' component={ RoomPage } /> */}
             <Route exact path='/room/:roomname' render={(props) => <RoomPageDetail {...props} socket={socket} />} />            
             {/* <Route exact path='/room/:roomname' component={ RoomPageDetail } /> */}
+            <Route exact path='/uploadimage' render={(props) => <Uploadimage {...props} socket={socket} />} />            
           </Switch>
         </Router>
       </Provider>
