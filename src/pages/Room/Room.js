@@ -57,11 +57,6 @@ export class Room extends Component {
     this.props.socket.emit('checkRoom')
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    debugger
-  }
-
-
   render() {
     return (
       <>
@@ -132,11 +127,9 @@ const styleInput = {
   textShadow: '1px 1px 1px rgba(105, 53, 53, 0.75)'
 }
 
-const mapstatetoprops = state => {
-  let { rooms } = state
+const mapStateToProps = (state) => {
   return {
-    rooms
-  }
+    rooms: state.rooms
+  };
 }
-
-export default connect(mapstatetoprops, null)(Room)
+export default connect(mapStateToProps)(Room)

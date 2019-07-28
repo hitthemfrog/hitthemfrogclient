@@ -7,7 +7,6 @@ export default function (socket) {
     invoked = true
 
     socket.on('listRoom', (rooms) => {
-      debugger
       store.dispatch({
         type: ACTTYPE.SOCKET_UPDATE_ROOM,
         payload: { rooms }
