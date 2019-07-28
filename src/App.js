@@ -22,9 +22,9 @@ function App() {
             <Route exact path="/" component={ HomePage  } />
             <Route exact path='/room' render={(props) => <RoomPage {...props} socket={socket} />} />            
             {/* <Route exact path='/room' component={ RoomPage } /> */}
-
             <Route exact path='/game' component={Game} />
-            <Route exact path='/room/:id' component={ RoomPageDetail } />
+            <Route exact path='/room/:roomname' render={(props) => <RoomPageDetail {...props} socket={socket} />} />            
+            {/* <Route exact path='/room/:roomname' component={ RoomPageDetail } /> */}
           </Switch>
         </Router>
       </Provider>
