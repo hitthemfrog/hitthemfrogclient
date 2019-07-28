@@ -1,26 +1,32 @@
 import React from 'react'
 import Loading from '../../component/Loading'
+import { connect } from 'react-redux'
 
-let listRoomListener = null
-
-export default class extends React.Component {
-  componentDidMount() {
-    listRoomListener = this.props.socket.on('listRoom', (rooms) => {
-      let roomName = localStorage.getItem('htf_roomname')
-      let room = rooms.find(e => e.name === roomName)
-      if (room.players.length === 2) {
-        this.props.history.push('/game')
-      }
-    })
-
-    this.props.socket.emit('checkRoom')
-  }
-
-  componentWillUnmount() {
-    this.props.socket.removeListener('listRoom', listRoomListener)
-  }
-
-  render () {
-    return <Loading/>
+const mapStateToProps = state => {
+  return {
+    rooms: state.rooms
   }
 }
+export default connect(mapStateToProps)(
+  class extends React.Component {
+    checkPlayers() {
+      let roomname = localStorage.getItem('htf_roomname')
+      let room = this.props.rooms.find(e => e.name === roomname)
+      if (room && room.players.length === 2) {
+        this.props.history.push('/game')
+      }
+    }
+    
+    componentDidMount() {
+      this.checkPlayers()
+    }
+
+    componentDidUpdate() {
+      this.checkPlayers()  
+    }
+
+    render () {
+      return <Loading/>
+    }
+  }
+)

@@ -18,9 +18,6 @@ class Game extends Component {
     mouseClickListener(setup.camera, setup.scene, this.props.socket, models)
     mouseMoveListener(setup.camera, setup.scene, clickedObjUUidArray)
     loop(setup.scene, setup.renderer, setup.camera, sceneHUD, cameraHUD, setScoreHUD, this.props.socket)
-
-    this.props.socket.on('playersData', playerDataListener)
-    
   }
 
   componentWillUnmount() {

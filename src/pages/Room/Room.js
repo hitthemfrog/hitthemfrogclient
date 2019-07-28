@@ -1,26 +1,21 @@
 import React, { Component } from 'react'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
 import RoomCard from './RoomCard'
-import Loading from '../../component/Loading'
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-let listRoomListener = null
 export class Room extends Component {
-  state = {
-    avail_rooms: [],
-    playerAmount: 0,
-    counter: 0,
-    inputRoomName: '',
-    playerName: '',
-    statusUserName: true,
-    statusCreateRoom: false
-  }
-
-  increment() {
-    this.setState({
-      counter: this.state.counter + 1
+  constructor(props) {
+    super(props)
+    this.state = ({
+      avail_rooms: [],
+      inputRoomName: '',
+      playerName: localStorage.getItem('htf_username'),
+      statusUserName: localStorage.getItem('htf_username'),
+      statusCreateRoom: false
     })
   }
+
 
   userLogout() {
     localStorage.removeItem('htf_username')
@@ -59,131 +54,58 @@ export class Room extends Component {
   }
 
   componentDidMount() {
-
-    listRoomListener = this.props.socket.on('listRoom', (value) => {
-      console.log('roomnya', value)
-      this.setState({
-        avail_rooms: value
-      })
-    })
-
     this.props.socket.emit('checkRoom')
-  }
-
-  componentWillUnmount() {
-    this.props.socket.removeListener('listRoom', listRoomListener)
-  }
-
-  joinRoom = (roomName) => {
-    console.log('emit join-room ke trigger')
-    this.props.socket.emit(`joinRoom`, roomName, 'naruto', function (value) {
-      if (value) {
-        this.props.socket.emit('checkBeforeEnter', roomName);
-        this.props.history.push('/main');
-      } else {
-        console.log('maap, uda penuh bang');
-      }
-    });
-    // setRoom('Room 1');
-  };
-
-  availableListRoom() {
-    console.log('list room trigger')
-    this.props.socket.emit('listRooms')
-    this.props.socket.on('listRooms', (value) => {
-      console.log('roomnya', value)
-      this.setState({
-        avail_rooms: value
-      })
-    })
-  }
-
-  routerPushToHome() {
-    this.setState({
-      statusUserName: false
-    })
-  }
-
-  cekUserName() {
-    let userNameLogin = localStorage.getItem('htf_username')
-    console.log(userNameLogin, " adalah ")
-    if (userNameLogin) {
-      this.setState({
-        playerName: localStorage.getItem('htf_username')
-      })
-      this.availableListRoom()
-    } else {
-      this.routerPushToHome()
-    }
   }
 
   render() {
     return (
       <>
         {
-          this.state.statusUserName
-          &&
-          <>
-            <div className="force-overflow">
-              {/* <Loading></Loading> */}
-              {/* <button onClick={() => this.cobaBikinRoom()}>TES CREATE ROOM</button> */}
-              {/* <button onClick={() => this.joinRoom()}>TES JOIN ROOM</button> */}
-            </div>
-            <div id="style-15" className="roomBox scrollbar force-overflow">
-              <div className='row'>
-                <div className='col s12 m6 l6'>
-                  <img src={IconUser} alt="logo" />
-                </div>
-                <div className='col s12 m6 l6'>
-                  <span className='playerNameStyle'>{this.state.playerName}</span>
-                  <button onClick={() => this.userLogout()} className="btn">Exit</button>
-                  <form onSubmit={this.cobaBikinRoom}>
-                    <input
-                      style={styleInput}
-                      name='inputRoomName'
-                      value={this.state.inputRoomName}
-                      placeholder=" Type here..."
-                      onChange={this.onChange}
-                      type="text"
-                    />
-                    <button onClick={this.cobaBikinRoom} className="btnnya-main linkStyle" id="new-game-button">Create Room</button>
-                    <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please fill a room name..</div></div>
-                  </form>
+          this.state.statusUserName && (
+            <>
+              <div id="style-15" className="roomBox scrollbar force-overflow">
+                <div className='row'>
+                  <div className='col s12 m6 l6'>
+                    <img src={IconUser} alt="logo" />
+                  </div>
+                  <div className='col s12 m6 l6'>
+                    <span className='playerNameStyle'>{this.state.playerName}</span>
+                    <button onClick={() => this.userLogout()} className="btn">Exit</button>
+                    <form onSubmit={this.cobaBikinRoom}>
+                      <input
+                        style={styleInput}
+                        name='inputRoomName'
+                        value={this.state.inputRoomName}
+                        placeholder=" Type here..."
+                        onChange={this.onChange}
+                        type="text"
+                      />
+                      <button onClick={this.cobaBikinRoom} className="btnnya-main linkStyle" id="new-game-button">Create Room</button>
+                      <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please fill a room name..</div></div>
+                    </form>
 
+                  </div>
+                </div>
+                <div className="row">
+                  {
+                    this.props.rooms.map((roomGame, i) => (
+                      <RoomCard
+                        history={this.props.history}
+                        socket={this.props.socket}
+                        data={roomGame}
+                        key={i} />
+                    ))
+                  }
                 </div>
               </div>
-              <div className="row">
-                {/* 
-                            {
-                                this.state.avail_rooms.length > 0
-                                &&
-                                <> */}
-                {
-                  this.state.avail_rooms.map((roomGame, i) => (
-                    <RoomCard
-                      history={this.props.history}
-                      socket={this.props.socket}
-                      data={roomGame}
-                      key={i} />
-                  ))
-                }
-                {/* </>
-                            }                         */}
-              </div>
-            </div>
-          </>
+            </>
+          )
         }
         {
-          !this.state.statusUserName
-          &&
-          <Redirect to='/' />
+          !this.state.statusUserName && (
+            <Redirect to='/' />
+          )
         }
-        {
-          this.state.statusCreateRoom
-          &&
-          <Redirect to={`/room/${this.state.inputRoomName}`} />
-        }
-
       </>
     )
   }
@@ -205,4 +127,9 @@ const styleInput = {
   textShadow: '1px 1px 1px rgba(105, 53, 53, 0.75)'
 }
 
-export default Room
+const mapStateToProps = (state) => {
+  return {
+    rooms: state.rooms
+  };
+}
+export default connect(mapStateToProps)(Room)
