@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
+// import IconUser from '../../image/htflogo.jpg'
+
 import RoomCard from './RoomCard'
 import Loading from '../../component/Loading'
 import { Redirect } from 'react-router-dom'
+import soundfile from '../../sound/sountrack.mp3'
+import IconRoom from '../../image/man.png'
 
 let listRoomListener = null
 export class Room extends Component {
@@ -48,7 +52,7 @@ export class Room extends Component {
       let self = this
       this.props.socket.emit('joinRoom', { roomName, playerName: localStorage.getItem('htf_username') }, function (val) {
         if (val) {
-          self.props.history.push('/waitingRoom')
+          // self.props.history.push('/waitingRoom')
         } else {
           /**
            * handle untuk error
@@ -59,15 +63,22 @@ export class Room extends Component {
   }
 
   componentDidMount() {
-
-    listRoomListener = this.props.socket.on('listRoom', (value) => {
-      console.log('roomnya', value)
+    console.log('room componentDidMount')
+    if (localStorage.getItem('htf_username')){
+      console.log('masuk if')
       this.setState({
-        avail_rooms: value
+        playerName: localStorage.getItem('htf_username')
       })
-    })
-
-    this.props.socket.emit('checkRoom')
+      listRoomListener = this.props.socket.on('listRoom', (value) => {
+        this.setState({
+          avail_rooms: value,
+        })
+        console.log('roomnya', value)
+      })
+      this.props.socket.emit('checkRoom')
+    } else {
+      this.props.history.push('/')
+    }
   }
 
   componentWillUnmount() {
@@ -108,6 +119,7 @@ export class Room extends Component {
     let userNameLogin = localStorage.getItem('htf_username')
     console.log(userNameLogin, " adalah ")
     if (userNameLogin) {
+      console.log('masuK IF,', userNameLogin)
       this.setState({
         playerName: localStorage.getItem('htf_username')
       })
@@ -120,6 +132,12 @@ export class Room extends Component {
   render() {
     return (
       <>
+        {
+            <div>
+                <audio src={soundfile} autoPlay/>
+                <button onClick={() => this.userLogout()} className="red accent-4 waves-effect waves-light btn large right"><i class="material-icons right">exit_to_app</i>Exit</button>
+            </div>
+        }
         {
           this.state.statusUserName
           &&
@@ -135,8 +153,7 @@ export class Room extends Component {
                   <img src={IconUser} alt="logo" />
                 </div>
                 <div className='col s12 m6 l6'>
-                  <span className='playerNameStyle'>{this.state.playerName}</span>
-                  <button onClick={() => this.userLogout()} className="btn">Exit</button>
+                  <span className='playerNameStyle'>Welcome, {this.state.playerName}</span>
                   <form onSubmit={this.cobaBikinRoom}>
                     <input
                       style={styleInput}
@@ -153,6 +170,7 @@ export class Room extends Component {
                 </div>
               </div>
               <div className="row">
+              
                 {/* 
                             {
                                 this.state.avail_rooms.length > 0
@@ -170,6 +188,7 @@ export class Room extends Component {
                 {/* </>
                             }                         */}
               </div>
+              
             </div>
           </>
         }
@@ -183,7 +202,6 @@ export class Room extends Component {
           &&
           <Redirect to={`/room/${this.state.inputRoomName}`} />
         }
-
       </>
     )
   }

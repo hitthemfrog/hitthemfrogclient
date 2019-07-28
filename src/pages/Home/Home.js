@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import soundfile from '../../sound/sountrack.mp3'
 
 import './Home.css';
 
 export class HomePage extends Component {
     state = {
         inputUserName: '',
-        statusUserName: false
+        // statusUserName: false
     }
 
     validateUserName = (e) => {
@@ -17,20 +18,21 @@ export class HomePage extends Component {
             this.launch_toast()
         } else {
             console.log('go to room list')
-            console.log(this.inputUserName)
+            console.log(this.state.inputUserName)
             localStorage.setItem('htf_username', this.state.inputUserName)
-            this.setState({
-                inputUserName: ''
-            })
-            this.routerPushToRoom()
+            // this.setState({
+            //     inputUserName: ''
+            // })
+            // this.routerPushToRoom()
+            this.props.history.push('/room')
         }
     }
 
-    routerPushToRoom(){
-        this.setState({
-            statusUserName: true
-        })
-    }
+    // routerPushToRoom(){
+    //     this.setState({
+    //         statusUserName: true
+    //     })
+    // }
     
     onChange = (e) => this.setState({
         [e.target.name]: e.target.value
@@ -50,7 +52,8 @@ export class HomePage extends Component {
         let userNameLogin = localStorage.getItem('htf_username')
         console.log(userNameLogin, " adalah ")
         if (userNameLogin) {
-            this.routerPushToRoom()
+            // this.routerPushToRoom()
+            this.props.history.push('/room')
         }
     }
 
@@ -64,33 +67,41 @@ export class HomePage extends Component {
         return (
             <>
             {
+                <div>
+                    <audio src={soundfile} autoPlay/>
+                </div>
+            }
+            {
+                
                 !this.state.statusUserName
                 &&
-                <div className="startGameStyle col s12 m12 l12">
-                <h1>HitThatFrogs</h1>
-                    <div>
-                        {/* <button className="linkStyle"><Link className="btn-main"  to="/room">START</Link></button> */}
-                    </div>
-                    <div >
-                        <form onSubmit={this.validateUserName}>
-                            <input
-                                style={styleInput}
-                                name='inputUserName'
-                                value={this.state.inputUserName}
-                                placeholder=" Input Name here..."
-                                onChange={this.onChange}
-                                type="text"
-                            />
-                        <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
-                        <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
-                        </form>
+                <div className='row'>
+                    <div className="startGameStyle col s12 m12 l12">
+                    <h1 style={styleHeader}>HitThatFrogs</h1>
+                        <div>
+                            {/* <button className="linkStyle"><Link className="btn-main"  to="/room">START</Link></button> */}
+                        </div>
+                        <div >
+                            <form onSubmit={this.validateUserName}>
+                                <input
+                                    style={styleInput}
+                                    name='inputUserName'
+                                    value={this.state.inputUserName}
+                                    placeholder=" Input Name here..."
+                                    onChange={this.onChange}
+                                    type="text"
+                                />
+                            <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
+                            <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             }
             {
-                this.state.statusUserName
-                &&
-                <Redirect to='/room' />
+                // this.state.statusUserName
+                // &&
+                // <Redirect to='/room' />
             }
             </>
         )
@@ -99,7 +110,7 @@ export class HomePage extends Component {
 
 const styleInput = {
     width:250,
-    marginTop: 290,
+    // marginTop: 290,
     padding : '5px',
     fontSize: '24px',
     marginRight: '10px',
@@ -111,6 +122,10 @@ const styleInput = {
     borderRadius: '15px',
     boxShadow: '1px 0px 5px rgba(16,16,66,0.75)',
     textShadow:  '1px 1px 1px rgba(105, 53, 53, 0.75)'
+}
+
+const styleHeader = {
+    marginTop: '8%'
 }
 
 export default HomePage
