@@ -47,7 +47,6 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
         // el.rotation.y -= 0.3
         // el.rotation.z -= 0.3
       })
-      // debugger
     })
     }
 
