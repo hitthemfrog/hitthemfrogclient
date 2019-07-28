@@ -58,17 +58,16 @@ export function reducer (state = defaultState, action) {
     }
 
     case ACTTYPE.SOCKET_UPDATE_ROOM: {
-      debugger
-      state.rooms = [...action.payload.rooms]
-      return state
+      state.rooms = action.payload.rooms
+      return {...state}
     }
     case ACTTYPE.SOCKET_UPDATE_PLAYER_SCORE: {
       state.playerScores = action.payload.playerScores
-      return state
+      return {...state}
     }
     case ACTTYPE.SOCKET_UPDATE_GAME_STATUS: {
       state.isGameFinished = action.payload.isGameFinished
-      return state
+      return {...state}
     }
 
     default:
