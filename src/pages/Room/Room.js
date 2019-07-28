@@ -4,6 +4,7 @@ import RoomCard from './RoomCard'
 import Loading from '../../component/Loading'
 import { Redirect } from 'react-router-dom'
 
+let listRoomListener = null
 export class Room extends Component {
     state = {
         avail_rooms : [],
@@ -14,6 +15,7 @@ export class Room extends Component {
         statusUserName: true,
         statusCreateRoom: false
     }
+
     increment() {
         this.setState({
             counter : this.state.counter + 1
@@ -39,33 +41,30 @@ export class Room extends Component {
     })
 
     cobaBikinRoom = (e) => {
-        e.preventDefault();
-        if (this.state.inputRoomName === ''){
-            console.log('nama room kosong mas')
-            this.launch_toast()
-        } else {
-            console.log('nama room nya', this.state.inputRoomName)
-            this.props.socket.emit('createRooms', {roomName: this.state.inputRoomName, player: this.state.playerName })
-            this.props.socket.on('createRooms', (value) => {
-                console.log('roomnya', value)
-                this.setState({
-                    avail_rooms : value,
-                    statusCreateRoom: true,
-                    // inputRoomName: ''
-                })
-            })            
-        }
+      e.preventDefault();
+      if (this.state.inputRoomName !== ''){
+        this.props.socket.emit('joinRoom', {roomName: this.state.inputRoomName, playerName: 'naruto'}, function (val) {
+          console.log('join ?', val)
+        })
+      }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // this.availableListRoom()
-        // if (prevState.playerAmount !== this.state.playerAmount) {
-        //   this.props.socket.emit('checkPlayer');
-        // }
+    componentDidMount() {
+      listRoomListener = this.props.socket.on('listRoom', (value) => {
+        console.log('roomnya', value)
+        this.setState({
+          avail_rooms: value
+        })
+      })
     }
+
+    componentWillUnmount() {
+      this.props.socket.removeListener('listRoom', listRoomListener)
+    }
+    
     joinRoom = (roomName) => {
         console.log('emit join-room ke trigger')
-        this.props.socket.emit(`join-room`, roomName,function(value){
+        this.props.socket.emit(`joinRoom`, roomName, 'naruto', function(value){
           if (value) {  
             this.props.socket.emit('checkBeforeEnter', roomName);
             this.props.history.push('/main');
