@@ -3,13 +3,15 @@ import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
 import RoomCard from './RoomCard'
 import Loading from '../../component/Loading'
 
+let listRoomListener = null
 export class Room extends Component {
     state = {
         avail_rooms : [],
         playerAmount: 0,
         counter: 0,
-        inputRoomName: ''
+        inputRoomName: '', 
     }
+
     increment() {
         this.setState({
             counter : this.state.counter + 1
@@ -21,30 +23,30 @@ export class Room extends Component {
     })
 
     cobaBikinRoom = (e) => {
-        e.preventDefault();
-        if (this.state.inputRoomName === ''){
-            console.log('nama room kosong mas')
-
-        } else {
-            console.log('nama room nya', this.state.inputRoomName)
-            this.props.socket.emit('createRooms', {roomName: this.state.inputRoomName, player: 'naruto'})
-            this.props.socket.on('createRooms', (value) => {
-                console.log('roomnya', value)
-                this.setState({
-                    avail_rooms : value
-                })
-            })
-        }
+      e.preventDefault();
+      if (this.state.inputRoomName !== ''){
+        this.props.socket.emit('joinRoom', {roomName: this.state.inputRoomName, playerName: 'naruto'}, function (val) {
+          console.log('join ?', val)
+        })
+      }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // if (prevState.playerAmount !== this.state.playerAmount) {
-        //   this.props.socket.emit('checkPlayer');
-        // }
+    componentDidMount() {
+      listRoomListener = this.props.socket.on('listRoom', (value) => {
+        console.log('roomnya', value)
+        this.setState({
+          avail_rooms: value
+        })
+      })
     }
+
+    componentWillUnmount() {
+      this.props.socket.removeListener('listRoom', listRoomListener)
+    }
+    
     joinRoom = (roomName) => {
         console.log('emit join-room ke trigger')
-        this.props.socket.emit(`join-room`, roomName,function(value){
+        this.props.socket.emit(`joinRoom`, roomName, 'naruto', function(value){
           if (value) {  
             this.props.socket.emit('checkBeforeEnter', roomName);
             this.props.history.push('/main');
@@ -59,28 +61,6 @@ export class Room extends Component {
         
     }
 
-    componentDidMount() {
-        console.log('componentDidMount jalan')
-        // this.listAvailableRoom()
-        // console.log(this.props.socket)
-
-        // this.props.socket.on('checkRooms', (value) => {
-        //     console.log('roomnya', value)
-        //     this.setState({
-        //         avail_rooms: value
-        //     })
-        // })
-
-        // this.props.socket.emit('checkRooms', () => {
-        // })
-
-        // this.props.socket.on('checkPlayer', (value) => {
-        //     console.log(value, " ini value")
-        //     this.setState({
-        //         playerAmount: value
-        //     })
-        // })
-    }
     render() {
         return (
             <>
