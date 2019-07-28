@@ -4,7 +4,11 @@ export const ACTTYPE = {
   REMOVE_GROUP_SCENE_FROG_UUID: 'REMOVE_GROUP_SCENE_FROG_UUID',
   ADD_HIT_SCORE: 'ADD_HIT_SCORE',
   ADD_MISS_SCORE: 'ADD_MISS_SCORE',
-  IS_CLICKED: 'IS_CLICKED'
+  IS_CLICKED: 'IS_CLICKED',
+
+  SOCKET_UPDATE_ROOM: 'SOCKET_UPDATE_ROOM',
+  SOCKET_UPDATE_PLAYER_SCORE: 'SOCKET_UPDATE_PLAYER_SCORE',
+  SOCKET_UPDATE_GAME_STATUS: 'SOCKET_UPDATE_GAME_STATUS'
 }
 
 const defaultState = {
@@ -12,7 +16,10 @@ const defaultState = {
   frogs: [],
   hitScore: 0,
   missScore: 0,
-  isClicked: false
+  isClicked: false,
+  rooms: [], 
+  isGameFinished: {},
+  playerScores: []
 }
 
 export function reducer (state = defaultState, action) {
@@ -49,6 +56,21 @@ export function reducer (state = defaultState, action) {
       state.isClicked = action.payload
       return state
     }
+
+    case ACTTYPE.SOCKET_UPDATE_ROOM: {
+      debugger
+      state.rooms = [...action.payload.rooms]
+      return state
+    }
+    case ACTTYPE.SOCKET_UPDATE_PLAYER_SCORE: {
+      state.playerScores = action.payload.playerScores
+      return state
+    }
+    case ACTTYPE.SOCKET_UPDATE_GAME_STATUS: {
+      state.isGameFinished = action.payload.isGameFinished
+      return state
+    }
+
     default:
       return state
   }

@@ -8,13 +8,6 @@ export class Room extends Component {
     }
 
     getPlayersInRoom() {
-        this.props.socket.emit('getPlayersInROom', {roomname: this.props.match.params.roomname})
-        this.props.socket.on('getPlayersInROom', (value) => {
-            console.log('isinya', value)
-            this.setState({
-                players : value
-            })
-        })
 
     }
 
