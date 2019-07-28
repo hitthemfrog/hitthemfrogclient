@@ -43,7 +43,7 @@ export class Room extends Component {
     cobaBikinRoom = (e) => {
       e.preventDefault();
       if (this.state.inputRoomName !== ''){
-        this.props.socket.emit('joinRoom', {roomName: this.state.inputRoomName, playerName: 'naruto'}, function (val) {
+        this.props.socket.emit('joinRoom', { roomName: this.state.inputRoomName, playerName: localStorage.getItem('htf_username')}, function (val) {
           console.log('join ?', val)
         })
       }
@@ -105,20 +105,6 @@ export class Room extends Component {
         }
     }
 
-    componentDidMount() {
-        console.log('componentDidMount jalan')
-        console.log(this.props)
-        this.cekUserName()
-        // this.props.socket.emit('checkRooms', () => {
-        // })
-
-        // this.props.socket.on('checkPlayer', (value) => {
-        //     console.log(value, " ini value")
-        //     this.setState({
-        //         playerAmount: value
-        //     })
-        // })
-    }
     render() {
         return (
             <>
