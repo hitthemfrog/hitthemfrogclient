@@ -47,3 +47,8 @@ export function removeAllObjects(scene) {
   let scenes = scene.children.filter(scn => scn.type !== 'HemisphereLight')
   scenes.forEach(scn => scene.remove(scn))
 }
+
+export function dummyData() {
+  localStorage.setItem('player', 'P1')
+  localStorage.setItem('roomName', 'Duel Room 1')
+}

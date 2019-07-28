@@ -2,16 +2,16 @@ export const ACTTYPE = {
   SET_ONCLICK_INTERSECTIONS: 'SET_ONCLICK_INTERSECTIONS',
   ADD_GROUP_SCENE_FROG_UUID: 'ADD_GROUP_SCENE_FROG_UUID',
   REMOVE_GROUP_SCENE_FROG_UUID: 'REMOVE_GROUP_SCENE_FROG_UUID',
-  ADD_HIT: 'ADD_HIT',
-  ADD_MISS: 'ADD_MISS',
+  ADD_HIT_SCORE: 'ADD_HIT_SCORE',
+  ADD_MISS_SCORE: 'ADD_MISS_SCORE',
   IS_CLICKED: 'IS_CLICKED'
 }
 
 const defaultState = {
   intersects: [],
   frogs: [],
-  hitPoints: 0,
-  missPoints: 0,
+  hitScore: 0,
+  missScore: 0,
   isClicked: false
 }
 
@@ -37,12 +37,12 @@ export function reducer (state = defaultState, action) {
         return state
       }
     }
-    case ACTTYPE.ADD_HIT: {
-      state.hitPoints += 1
+    case ACTTYPE.ADD_HIT_SCORE: {
+      state.hitScore += 1
       return state
     }
-    case ACTTYPE.ADD_MISS: {
-      state.missPoints += 1
+    case ACTTYPE.ADD_MISS_SCORE: {
+      state.missScore += 1
       return state
     }
     case ACTTYPE.IS_CLICKED: {
@@ -75,12 +75,12 @@ export const actions = {
   },
   addHit () { 
     return {
-      type: ACTTYPE.ADD_HIT
+      type: ACTTYPE.ADD_HIT_SCORE
     }
   },
   addMiss () {
     return {
-      type: ACTTYPE.ADD_MISS
+      type: ACTTYPE.ADD_MISS_SCORE
     }
   },
   setClicked (status) {

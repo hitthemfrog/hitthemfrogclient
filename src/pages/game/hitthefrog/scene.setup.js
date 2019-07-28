@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { dummyData } from './helpers'
 
 export default function (el) {
   let scene = new THREE.Scene();
@@ -13,6 +14,7 @@ export default function (el) {
   camera.position.z = 6
   camera.position.y = 1
 
+  dummyData()
   el.appendChild(renderer.domElement)
   return {
     scene, 

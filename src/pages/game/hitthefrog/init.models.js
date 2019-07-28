@@ -20,18 +20,6 @@ async function importModelObject (scene, model) {
   })
 }
 
-let pos = [
-  [-2, 2, 0],
-  [0, 2, 0],
-  [2, 2, 0],
-  [-2, 0, 0],
-  [0, 0, 0],
-  [2, 0, 0],
-  [-2, -2, 0],
-  [0, -2, 0],
-  [2, -2, 0],
-]
-
 const xyCoordinate = [
   [-2, 2, 0],
   [-4, 2, 0],

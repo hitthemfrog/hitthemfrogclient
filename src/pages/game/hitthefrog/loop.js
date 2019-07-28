@@ -52,7 +52,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
     
 
-    setScoreHud(`Hit: ${store.getState().hitPoints} Miss: ${store.getState().missPoints} 
+    setScoreHud(`Hit: ${store.getState().hitScore} Miss: ${store.getState().missScore} 
     Count Down: ${number}`)
 
     if (delta >= 3000 ) {
