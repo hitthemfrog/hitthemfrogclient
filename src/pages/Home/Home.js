@@ -57,8 +57,9 @@ export class HomePage extends Component {
     componentDidMount() {
         console.log('componentDidMount trigger')
         this.cekUserName()
-
     }
+
+
     render() {
         return (
             <>
@@ -81,7 +82,7 @@ export class HomePage extends Component {
                                 type="text"
                             />
                         <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
-                        <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">New Game</button>
+                        <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
                         </form>
                     </div>
                 </div>
