@@ -20,19 +20,18 @@ function gameover (props) {
       <div className='col s12 m12 l12'>
         { isWinner &&
           <div>
-            <h1><i>Congratulations!!, </i>{ username }</h1>
-            
+            <h1 className="playerNameStyle"><i>Congratulations!!, </i>{ username }</h1>
           </div>
         }
         {
           !isWinner &&
-          <h1><i>You Lose!!, </i>{ username } !!</h1>
+          <h1 className="playerNameStyle"><i>You Lose!!, </i>{ username } !!</h1>
         }
         
         <hr />
-        <h3>Score: { props.isGameFinished.score[username] }</h3>
+        <h3 className="playerNameStyle">Score: { props.isGameFinished.score[username] }</h3>
 
-        <button className="btnnya-main linkStyle" onClick={ () => {
+        <button id="new-game-button" className="btnnya-main linkStyle" onClick={ () => {
           localStorage.removeItem('htf_roomname')
           props.history.push('/room')
         }}>AYO MAIN LAGI</button>
