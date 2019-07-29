@@ -35,7 +35,7 @@ export default function (el) {
   let p2 = createThree2dTextPlane()
 
   p1.plane.position.set(0, (window.innerHeight / 2) - 30, 0)
-  p2.plane.position.set(0, (window.innerHeight / 2) - 50, 0)
+  p2.plane.position.set(0, (window.innerHeight / 2) - 60, 0)
   let sceneHUD = new THREE.Scene();
 
   sceneHUD.add(p1.plane)
