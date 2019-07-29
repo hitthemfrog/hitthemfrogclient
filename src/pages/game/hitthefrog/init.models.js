@@ -61,8 +61,10 @@ function randomCoordinate() {
   return result
 }
 
+const prefix = (process.env.NODE_ENV === 'production') ? '/hitthemfrogclient' : ''
+
 export default async function (scene) {
-  const frogModel = '/models/simple.frog.glb'
+  const frogModel = prefix + '/models/simple.frog.glb'
   const monkeyModel = '/models/simple.frog.sad.glb'
   let frogs = []
   let frogObj = store.getState().frogs
