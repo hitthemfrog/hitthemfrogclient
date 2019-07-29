@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import io from 'socket.io-client'
 import store from './store/store'
 import socketListener from './socket.listener'
+import SOCKET_IO_HOST from './host'
 
 import RoomPage from './pages/Room/Room'
 import RoomPageDetail from './pages/Room/RoomDetail'
@@ -13,7 +14,7 @@ import WaitingRoom from './pages/WaitingRoom/waiting.room'
 import Game from './pages/game/game'
 import GameOverScreen from './pages/gameOverScreen/gameOverScreen'
 
-const socket = io('http://10.148.0.5/');
+const socket = io(SOCKET_IO_HOST);
 socketListener(socket)
 
 const renderWithSocket = Component => (props) => (
