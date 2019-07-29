@@ -4,7 +4,7 @@ import { paintObjectOnIntersect, removeAllObjects } from './helpers'
 import initModels from './init.models'
 
 
-export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreHud, socket) {
+export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreHud, socket, history) {
    
   function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -17,11 +17,17 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
   let frogLegAnimationForward = true
   let timer = 0
   let number = 6
+  let isGameOver = false
 
   function loop (currentTime) {
     let state = store.getState()
-    let { intersects, frogs, playerScores } = state
+    let { intersects, frogs, playerScores, isGameFinished } = state
     const delta = currentTime - timer
+
+    if (isGameFinished.winner) {
+      history.push('/gameOver')
+      isGameOver = true
+    }
 
     if (!store.getState().isClicked) {
       let katakkatak = scene.children.filter(e => e.name === 'Scene')
@@ -52,10 +58,14 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
       const roomName = localStorage.getItem('htf_roomname')
       const playerName = localStorage.getItem('htf_username')
+      debugger
       socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: state.hitScore, miss: state.missScore })
     }
 
-    requestAnimationFrame(loop);
+    if (!isGameOver) {
+      requestAnimationFrame(loop);
+    }
+
     if (frogs && !store.getState().isClicked) frogs.forEach(f => {
       f.rotation.y += 0.065
     })

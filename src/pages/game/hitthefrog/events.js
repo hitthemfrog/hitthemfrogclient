@@ -41,7 +41,7 @@ export function mouseClickListener(camera, scene, socket, objectDictionary) {
       else store.dispatch(actions.addMiss())
 
       store.dispatch(actions.setClicked(true))
-
+      debugger
       socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: state.hitScore, miss: state.missScore })
     }
   }
