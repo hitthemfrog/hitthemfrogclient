@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router , Route, Switch } from 'react-router-dom'
+import { HashRouter as Router , Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import io from 'socket.io-client'
 import store from './store/store'
