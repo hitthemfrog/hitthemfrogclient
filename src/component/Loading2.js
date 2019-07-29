@@ -16,12 +16,11 @@ export default class Loading extends Component {
         return (
             <div>
                 <div>
-                    {/* <img data-testid="loadingImg" src={LoadingBlock4} alt="logo" /> */}
-                    {/* <img data-testid="loadingImg" src={LoadingSpinner} alt="logo" /> */}
-                    <img data-testid="loadingImg" src={LoadingBlock4} alt="logo" />
+                    <img data-testid="loadingImg" src={LoadingBlock1} alt="logo" />
+                    {/* <img data-testid="loadingImg" src={LoadingEllips} alt="logo" /> */}
                 </div>
                 <div>
-                    <img data-testid="loadingImg" src={LoadingEllips} alt="logo" />
+                    <img data-testid="loadingImg" src={LoadingSpinner} alt="logo" />
                 </div>
                 <div>
                 </div>

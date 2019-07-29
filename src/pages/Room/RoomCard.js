@@ -26,12 +26,12 @@ export class RoomList extends Component {
                       (this.props.data.gameStatus === 'CREATED')
                       &&
                       <>
-                      <span
-                      onClick={() => { 
+                      <button onClick={() => { 
                         let self = this
                         localStorage.setItem('htf_roomname', this.props.data.name)
                         this.props.socket.emit('joinRoom', { roomName: this.props.data.name, playerName: localStorage.getItem('htf_username') }, function (val) {
                           if (val) {
+                            console.log('masuk if waiting room')
                             self.props.history.push('/waitingRoom')
                           } else {
                             /**
@@ -40,7 +40,8 @@ export class RoomList extends Component {
                           }
                         })
                       }}
-                      class="menu__link" data-hover="Fade">Join</span>
+                      class="menu__link"
+                      data-hover="Fade">Join</button>
                       </>
                     }
                     {

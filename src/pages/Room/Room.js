@@ -52,7 +52,7 @@ export class Room extends Component {
       let self = this
       this.props.socket.emit('joinRoom', { roomName, playerName: localStorage.getItem('htf_username') }, function (val) {
         if (val) {
-          // self.props.history.push('/waitingRoom')
+          self.props.history.push('/waitingRoom')
         } else {
           /**
            * handle untuk error
@@ -135,7 +135,7 @@ export class Room extends Component {
         {
             <div>
                 <audio src={soundfile} autoPlay/>
-                <button onClick={() => this.userLogout()} className="red accent-4 waves-effect waves-light btn large right"><i class="material-icons right">exit_to_app</i>Exit</button>
+                <button onClick={() => this.userLogout()} className=" red darken-3 waves-effect waves-light btn large right"><i class="material-icons right">exit_to_app</i>Exit</button>
             </div>
         }
         {
@@ -153,7 +153,7 @@ export class Room extends Component {
                   <img src={IconUser} alt="logo" />
                 </div>
                 <div className='col s12 m6 l6'>
-                  <span className='playerNameStyle'>Welcome, {this.state.playerName}</span>
+                  <span className='playerNameStyle'>{this.state.playerName}</span>
                   <form onSubmit={this.cobaBikinRoom}>
                     <input
                       style={styleInput}
