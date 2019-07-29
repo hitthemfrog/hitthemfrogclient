@@ -40,7 +40,7 @@ export class RoomList extends Component {
                           }
                         })
                       }}
-                      class="menu__link"
+                      className="menu__link"
                       data-hover="Go">Join</button>
                       </>
                     }
