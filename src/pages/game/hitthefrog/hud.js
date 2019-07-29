@@ -9,7 +9,7 @@ function createThree2dTextPlane () {
   hudCanvas.width = width;
   hudCanvas.height = height;
   let hudCanvasContext = hudCanvas.getContext('2d');
-  hudCanvasContext.font = "Normal 40px Arial";
+  hudCanvasContext.font = "Normal 30px Arial";
   hudCanvasContext.textAlign = 'center';
   hudCanvasContext.fillStyle = "rgba(245,245,245,1)";
   hudCanvasContext.fillText('', width / 2, height / 2);
@@ -34,8 +34,8 @@ export default function (el) {
   let p1 = createThree2dTextPlane()
   let p2 = createThree2dTextPlane()
 
-  p1.plane.position.set(0, (window.innerHeight / 2) - 50, 0)
-  p2.plane.position.set(0, (window.innerHeight / 2) - 80, 0)
+  p1.plane.position.set(0, (window.innerHeight / 2) - 30, 0)
+  p2.plane.position.set(0, (window.innerHeight / 2) - 50, 0)
   let sceneHUD = new THREE.Scene();
 
   sceneHUD.add(p1.plane)
@@ -44,11 +44,13 @@ export default function (el) {
 
   const setScoreHUD = (player1, player2, countdown) => {
     p1.hudCanvasContext.clearRect(0, 0, width, height);
-    p1.hudCanvasContext.fillText(`xxxx`, width / 2, height / 2);
+    p1.hudCanvasContext.fillText(`${player1.name} Hit: ${player1.hit} Miss: ${player1.miss} 
+    Count Down: ${countdown}`, width / 2, height / 2);
     p1.hudTexture.needsUpdate = true
 
     p2.hudCanvasContext.clearRect(0, 0, width, height);
-    p2.hudCanvasContext.fillText(`yyyy`, width / 2, height / 2);
+    p2.hudCanvasContext.fillText(`${player2.name} Hit: ${player2.hit} Miss: ${player2.miss} 
+    Count Down: ${countdown}`, width / 2, height / 2);
     p2.hudTexture.needsUpdate = true
   }
 

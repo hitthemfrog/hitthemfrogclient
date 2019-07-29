@@ -5,10 +5,6 @@ import { mouseClickListener, mouseMoveListener } from './hitthefrog/events'
 import loop from './hitthefrog/loop'
 import initHud from './hitthefrog/hud'
 
-let playerDataListener = function (playerList) {
-  console.log(playerList)
-}
-
 class Game extends Component {
   async componentDidMount() {
     let setup = sceneSetup(this.gameThree)
@@ -18,10 +14,6 @@ class Game extends Component {
     mouseClickListener(setup.camera, setup.scene, this.props.socket, models)
     mouseMoveListener(setup.camera, setup.scene, clickedObjUUidArray)
     loop(setup.scene, setup.renderer, setup.camera, sceneHUD, cameraHUD, setScoreHUD, this.props.socket)
-  }
-
-  componentWillUnmount() {
-    this.props.socket.removeListener('playersData', playerDataListener)
   }
 
   render() {

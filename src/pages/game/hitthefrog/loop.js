@@ -15,13 +15,12 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
   window.addEventListener('resize', onWindowResize, false)
   
   let frogLegAnimationForward = true
-  const state = store.getState()
   let timer = 0
   let number = 6
 
   function loop (currentTime) {
     let state = store.getState()
-    let { intersects, frogs } = state
+    let { intersects, frogs, playerScores } = state
     const delta = currentTime - timer
 
     if (!store.getState().isClicked) {
@@ -40,10 +39,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     })
     }
 
-    
-
-    setScoreHud(`Hit: ${store.getState().hitScore} Miss: ${store.getState().missScore} 
-    Count Down: ${number}`)
+    setScoreHud(playerScores[0], playerScores[1], number)
 
     if (delta >= 3000 ) {
       timer = currentTime
@@ -54,8 +50,8 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
       if (!store.getState().isClicked) store.dispatch(actions.addMiss())
       store.dispatch(actions.setClicked(false))
 
-      const roomName = localStorage.getItem('roomName')
-      const playerName = localStorage.getItem('player')
+      const roomName = localStorage.getItem('htf_roomname')
+      const playerName = localStorage.getItem('htf_username')
       socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: state.hitScore, miss: state.missScore })
     }
 

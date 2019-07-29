@@ -32,9 +32,10 @@ export function mouseClickListener(camera, scene, socket, objectDictionary) {
     let intersects = raycaster.intersectObjects(scene.children, true);
 
     if (intersects.length !== 0 && !store.getState().isClicked) {
-      const roomName = localStorage.getItem('roomName')
-      const playerName = localStorage.getItem('player')
+      const roomName = localStorage.getItem('htf_roomname')
+      const playerName = localStorage.getItem('htf_username')
       const state = store.getState()
+      
 
       if (intersects[0].object.parent.name === 'monkeyObjectScene') store.dispatch(actions.addHit())
       else store.dispatch(actions.addMiss())
