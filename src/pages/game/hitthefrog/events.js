@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
+import incorrectSound from '../../../sound/incorrect.mp3'
 
 
 export function mouseMoveListener(camera, scene) {
