@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1da1c53a8135f572dc7e97f1dc071b80",
+    "revision": "4a6c4d4308fd52a1bdaa6c5a513f8561",
     "url": "/hitthemfrogclient/index.html"
   },
   {
-    "revision": "52bc774987c2e7304607",
-    "url": "/hitthemfrogclient/static/css/main.276f5d54.chunk.css"
+    "revision": "a20fe2580d547cd19250",
+    "url": "/hitthemfrogclient/static/css/main.4758444f.chunk.css"
   },
   {
-    "revision": "f52626b59a4b9e0595a9",
-    "url": "/hitthemfrogclient/static/js/2.12f1b152.chunk.js"
+    "revision": "959fbada8083f7ddf234",
+    "url": "/hitthemfrogclient/static/js/2.3a8319bd.chunk.js"
   },
   {
-    "revision": "3dc791b03bc248663840",
-    "url": "/hitthemfrogclient/static/js/3.707c5239.chunk.js"
+    "revision": "2f8b52d0ba287130845a",
+    "url": "/hitthemfrogclient/static/js/3.3e39dd00.chunk.js"
   },
   {
-    "revision": "52bc774987c2e7304607",
-    "url": "/hitthemfrogclient/static/js/main.c6c7c3a8.chunk.js"
+    "revision": "a20fe2580d547cd19250",
+    "url": "/hitthemfrogclient/static/js/main.819a02ea.chunk.js"
   },
   {
-    "revision": "3b03948874cae10cc94f",
-    "url": "/hitthemfrogclient/static/js/runtime~main.8c9184cb.js"
+    "revision": "97faac7489522a74fe48",
+    "url": "/hitthemfrogclient/static/js/runtime~main.357045e7.js"
   },
   {
     "revision": "9e2dc1dbf249e4e6a3f2e9a51d514b04",
@@ -52,6 +52,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hitthemfrogclient/static/media/Ellipsis-1s-200px.ad89f228.svg"
   },
   {
+    "revision": "b9ed6375976891433f53fa893453514f",
+    "url": "/hitthemfrogclient/static/media/Game-start-countdown.b9ed6375.mp3"
+  },
+  {
     "revision": "800b536f488161735ed8cc03ed43d7bf",
     "url": "/hitthemfrogclient/static/media/Pacman-0.6s-200px.800b536f.svg"
   },
@@ -62,6 +66,18 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "531ef8db8ccc6ada7f1d87a65ce0b3cf",
     "url": "/hitthemfrogclient/static/media/Wedges-3s-200px.531ef8db.svg"
+  },
+  {
+    "revision": "1f6aba09b77c5d7434a01fd873c0ec0f",
+    "url": "/hitthemfrogclient/static/media/crazyFrog.1f6aba09.mp3"
+  },
+  {
+    "revision": "15424912ffabe07dbb6f95944a8af3ef",
+    "url": "/hitthemfrogclient/static/media/incorrect.15424912.mp3"
+  },
+  {
+    "revision": "fafc144101626efe0cbaa46951afed7b",
+    "url": "/hitthemfrogclient/static/media/mario-coin-sound.fafc1441.mp3"
   },
   {
     "revision": "b140a8d4fa27acfe30a8d0f6a999c4c3",
