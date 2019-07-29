@@ -1,45 +1,55 @@
 import * as THREE from 'three'
 
 
-export default function (el) {
+let width = window.innerWidth
+let height = window.innerHeight
+
+function createThree2dTextPlane () {
   let hudCanvas = document.createElement('canvas');
-  let width = window.innerWidth 
-  let height = window.innerHeight
-  // Again, set dimensions to fit the screen.
   hudCanvas.width = width;
   hudCanvas.height = height;
-  
-  let hudBitmap = hudCanvas.getContext('2d');
-  
-  
-  hudBitmap.font = "Normal 40px Arial";
-  hudBitmap.textAlign = 'center';
-  hudBitmap.fillStyle = "rgba(245,245,245,0.75)";
-  hudBitmap.fillText('', width / 2, height / 2);
-
-  
-  // Create also a custom scene for HUD.
-  let sceneHUD = new THREE.Scene();
+  let hudCanvasContext = hudCanvas.getContext('2d');
+  hudCanvasContext.font = "Normal 40px Arial";
+  hudCanvasContext.textAlign = 'center';
+  hudCanvasContext.fillStyle = "rgba(245,245,245,1)";
+  hudCanvasContext.fillText('', width / 2, height / 2);
   let hudTexture = new THREE.Texture(hudCanvas)
   hudTexture.needsUpdate = true;
   hudTexture.minFilter = THREE.LinearFilter
-
-  // Create HUD material.
   let material = new THREE.MeshBasicMaterial({ map: hudTexture });
   material.transparent = true;
-
-  // Create plane to render the HUD. This plane fill the whole screen.
   let planeGeometry = new THREE.PlaneGeometry(width, height);
   let plane = new THREE.Mesh(planeGeometry, material);
-  plane.position.set(0, (window.innerHeight/2) - 50, 0)
-  sceneHUD.add(plane);
 
+  return {
+    plane, hudCanvasContext, hudTexture
+  }
+}
+
+function printStatus () {
+
+}
+
+export default function (el) {
+  let p1 = createThree2dTextPlane()
+  let p2 = createThree2dTextPlane()
+
+  p1.plane.position.set(0, (window.innerHeight / 2) - 50, 0)
+  p2.plane.position.set(0, (window.innerHeight / 2) - 80, 0)
+  let sceneHUD = new THREE.Scene();
+
+  sceneHUD.add(p1.plane)
+  sceneHUD.add(p2.plane)
   let cameraHUD = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 0, 30)
 
-  const setScoreHUD = (text) => {
-    hudBitmap.clearRect(0, 0, width, height);
-    hudBitmap.fillText(text, width / 2, height / 2);
-    hudTexture.needsUpdate = true
+  const setScoreHUD = (player1, player2, countdown) => {
+    p1.hudCanvasContext.clearRect(0, 0, width, height);
+    p1.hudCanvasContext.fillText(`xxxx`, width / 2, height / 2);
+    p1.hudTexture.needsUpdate = true
+
+    p2.hudCanvasContext.clearRect(0, 0, width, height);
+    p2.hudCanvasContext.fillText(`yyyy`, width / 2, height / 2);
+    p2.hudTexture.needsUpdate = true
   }
 
   return {

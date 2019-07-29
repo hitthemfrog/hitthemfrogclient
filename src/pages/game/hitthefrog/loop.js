@@ -36,16 +36,6 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
           frogLegAnimationForward = true
         }
         el.rotation.x += 0.02 * ((frogLegAnimationForward) ? 1 : -1)
-        // console.log(el.rotation.x)
-        // if (el.scale.x === 0.34881994128227234) {
-        //     if (el.rotation.x >= 0.3) {
-        //       el.rotation.x -= 0.3
-        //     }
-        // }
-        // console.log(el)
-        // el.rotation.x += 0.3
-        // el.rotation.y -= 0.3
-        // el.rotation.z -= 0.3
       })
     })
     }
