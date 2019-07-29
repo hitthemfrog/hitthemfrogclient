@@ -67,7 +67,7 @@ export class Room extends Component {
         {
             <div>
                 <audio src={soundfile} autoPlay/>
-                <button onClick={() => this.userLogout()} className=" red darken-3 waves-effect waves-light btn large right"><i class="material-icons right">exit_to_app</i>Exit</button>
+                <button onClick={() => this.userLogout()} className=" red darken-3 waves-effect waves-light btn large right"><i className="material-icons right">exit_to_app</i>Exit</button>
             </div>
         }
         {

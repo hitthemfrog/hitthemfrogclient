@@ -13,7 +13,7 @@ import WaitingRoom from './pages/WaitingRoom/waiting.room'
 import Game from './pages/game/game'
 import GameOverScreen from './pages/gameOverScreen/gameOverScreen'
 
-const socket = io('http://localhost:3333');
+const socket = io('http://10.148.0.5/');
 socketListener(socket)
 
 const renderWithSocket = Component => (props) => (
