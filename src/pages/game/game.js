@@ -4,6 +4,7 @@ import initModels from "./hitthefrog/init.models";
 import { mouseClickListener, mouseMoveListener } from './hitthefrog/events'
 import loop from './hitthefrog/loop'
 import initHud from './hitthefrog/hud'
+import crazyFrogSound from '../../sound/crazyFrog.mp3'
 
 class Game extends Component {
   async componentDidMount() {
@@ -18,7 +19,12 @@ class Game extends Component {
 
   render() {
     return (
+      <>
+      <div>
+          <audio src={crazyFrogSound} autoPlay/>
+      </div>
       <div ref={ref => (this.gameThree = ref)} />
+      </>
     )
   }
 }

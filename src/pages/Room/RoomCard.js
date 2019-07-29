@@ -40,15 +40,15 @@ export class RoomList extends Component {
                           }
                         })
                       }}
-                      class="menu__link"
-                      data-hover="Fade">Join</button>
+                      className="menu__link"
+                      data-hover="Go">Join</button>
                       </>
                     }
                     {
                       (this.props.data.gameStatus === 'STARTED')
                       &&
                       <>
-                      <span class="menu__link" data-hover="Fade">Playing</span>
+                      <span class="menu__link" data-hover="Sorry">Playing</span>
                       </>
                     }
                 </div>

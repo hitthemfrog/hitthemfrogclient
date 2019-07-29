@@ -1,15 +1,14 @@
 import React from 'react'
 import Loading from '../../component/Loading'
 import { connect } from 'react-redux'
-
 import Loading2 from '../../component/Loading2'
 import LoadingBlock from '../../component/LoadingBlock'
 import soundfile from '../../sound/sountrack.mp3'
+import SoundCountdown from '../../sound/Game-start-countdown.mp3'
 
-
-const waitingStyle2 = {
-  fontFamily: 'Special Elite, cursive',
-  fontSize: '28px'
+const countdownStyle = {
+  fontFamily: 'Saira Stencil One, cursive',
+  fontSize: '208px'
 }
 
 const waitingStyle = {
@@ -28,14 +27,15 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(
   class extends React.Component {
     state = {
-      counter: 5
+      counter: 4,
+      countdownStart : false
     }
     
     checkPlayers() {
       let roomname = localStorage.getItem('htf_roomname')
       let room = this.props.rooms.find(e => e.name === roomname)
       if (room && room.players.length === 2) {
-        if (this.state.counter === 5){
+        if (this.state.counter === 4){
           this.countdown()
         }
       }
@@ -64,6 +64,7 @@ export default connect(mapStateToProps)(
           return 
       } 
       this.setState({
+        countdownStart: true,
         counter: this.state.counter - 1
       })
     }, 1000)
@@ -78,21 +79,29 @@ export default connect(mapStateToProps)(
         </div>
         <div id="style-15" className="roomBox scrollbar force-overflow">
               <div className='row'>
-                <div className='col s12 m12 l12'>
                   {
-                    <h1>{this.state.counter}</h1>
+                    this.state.countdownStart &&
+                    <div className='col s12 m12 l12'>
+                      <div>
+                        <audio src={SoundCountdown} autoPlay/>
+                      </div>
+                      {
+                        this.state.counter === 0 &&
+                        <h1 style={countdownStyle}>Go</h1>
+                      }
+                      {
+                        this.state.counter > 0 &&
+                        <h1 style={countdownStyle}>{this.state.counter}</h1>
+                      }
+                    </div>
                   }
-                  {/* {JSON.stringify(this.props)} */}
-                  {/* <Loading/> */}
-                  {/* <span style={waitingStyle2}>Waiting another player...</span> */}
-                  {/* {JSON.stringify(this.props)} */}
-                </div>
-                <div className='col s12 m12 l12'>
-                  {/* <Loading2/>
-                   */}
-                   <LoadingBlock />
-                  <span style={waitingStyle}>Waiting another player...</span>
-                </div>
+                  {
+                    !this.state.countdownStart &&
+                    <div className='col s12 m12 l12'>
+                      <LoadingBlock />
+                      <span style={waitingStyle}>Waiting another player...</span>
+                    </div>
+                  }
               </div>      
             </div>
       </>

@@ -1,6 +1,9 @@
 import * as THREE from 'three'
 import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
+import incorrectSound from '../../../sound/incorrect.mp3'
+import coinSound from '../../../sound/mario-coin-sound.mp3'
+import { removeObjectOnIntersect } from './helpers'
 
 
 export function mouseMoveListener(camera, scene) {
@@ -35,15 +38,27 @@ export function mouseClickListener(camera, scene, socket, objectDictionary) {
       const roomName = localStorage.getItem('htf_roomname')
       const playerName = localStorage.getItem('htf_username')
       const state = store.getState()
-      
+      let audioFalse = new Audio();
+      audioFalse.src = incorrectSound
+      let audioTrue = new Audio();
+      audioTrue.src = coinSound
 
-      if (intersects[0].object.parent.name === 'monkeyObjectScene') store.dispatch(actions.addHit())
-      else store.dispatch(actions.addMiss())
+      if (intersects[0].object.parent.name === 'monkeyObjectScene') {
+        store.dispatch(actions.addHit())
+        audioTrue.play();
+      } else {
+        store.dispatch(actions.addMiss())
+        audioFalse.play();
+
+      }
+
+      if (!store.getState().isClicked) intersects.forEach(intersect => scene.remove(intersect.object.parent))
 
       store.dispatch(actions.setClicked(true))
-      debugger
       socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: state.hitScore, miss: state.missScore })
     }
   }
   return onMouseClick
 }
+
+// export function windowResizeListener(camera, renderer)

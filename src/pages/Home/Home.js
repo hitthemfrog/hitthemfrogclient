@@ -72,12 +72,12 @@ export class HomePage extends Component {
                 </div>
             }
             {
-                
                 !this.state.statusUserName
                 &&
                 <div className='row'>
                     <div className="startGameStyle col s12 m12 l12">
-                    <h1 style={styleHeader}>HitThatFrogs</h1>
+                    <h1 className="show-on-small hide-on-med-and-up">Hit The Frogs</h1>                    
+                    <h1 className="hide-on-med-and-down" style={styleHeader}>HitThatFrogs</h1>
                         <div>
                             {/* <button className="linkStyle"><Link className="btn-main"  to="/room">START</Link></button> */}
                         </div>
