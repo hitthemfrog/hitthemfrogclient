@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const mapStateToProps = state => {
   return {
@@ -11,6 +12,7 @@ function gameover (props) {
   return (
     <h1>
       { JSON.stringify(props.isGameFinished) }
+      <Link to="/room" >Back to Room</Link>
     </h1>
   )
 }  

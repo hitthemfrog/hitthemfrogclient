@@ -85,7 +85,7 @@ export class Room extends Component {
                   <img src={IconUser} alt="logo" />
                 </div>
                 <div className='col s12 m6 l6'>
-                  <span className='playerNameStyle'>{this.state.playerName}</span>
+                  <span className='playerNameStyle'>Welcome, {this.state.playerName}</span>
                   <form onSubmit={this.cobaBikinRoom}>
                     <input
                       style={styleInput}
