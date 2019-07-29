@@ -35,7 +35,9 @@ export default connect(mapStateToProps)(
       let roomname = localStorage.getItem('htf_roomname')
       let room = this.props.rooms.find(e => e.name === roomname)
       if (room && room.players.length === 2) {
-        this.countdown('/game')
+        if (this.state.counter === 5){
+          this.countdown()
+        }
       }
     }
     
