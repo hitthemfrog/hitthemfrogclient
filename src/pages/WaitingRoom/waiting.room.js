@@ -56,9 +56,10 @@ export default connect(mapStateToProps)(
 
   
   countdown() {
-    setInterval(() => {
+    let interval = setInterval(() => {
       if(this.state.counter === 0){
-          clearInterval()
+          clearInterval(interval)
+          console.log('ke room mas')
           this.props.history.push('/game')
           return 
       } 

@@ -9,9 +9,9 @@ export default class Loading extends Component {
                 <div>
                     <img data-testid="loadingImg" src={LoadingBlock4} alt="logo" />
                 </div>
-                <div>
+                {/* <div>
                     <img data-testid="loadingImg" src={LoadingSpinner} alt="logo" />
-                </div>
+                </div> */}
                 <div>
                 </div>
             </div>
