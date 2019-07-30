@@ -4,6 +4,7 @@ import soundfile from '../../sound/sountrack.mp3'
 import WebCamCapture from '../../component/Webcam'
 import axios from 'axios'
 import host from '../../host'
+import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
 
 import './Home.css';
 
@@ -83,12 +84,15 @@ export class HomePage extends Component {
             {
                 !this.state.statusUserName
                 &&
-                <div className='row'>
+                <div id="style-15" className='row webCamBoxLarge scrollbar force-overflow"'>
                     <div className="startGameStyle col s12 m12 l12">
-                    <h1 className="show-on-small hide-on-med-and-up">Hit The Frogs</h1>                    
-                    <h1 className="hide-on-med-and-down" style={styleHeader}>HitThatFrogs</h1>
+                    <h3 className="show-on-small hide-on-med-and-up" style={styleSmallHeader}>HitThemFr<img style={{width:25, height:25}} src={IconUser} alt="logo" />gs</h3>                    
+                    <h1 className="hide-on-small-and-down" style={styleHeader}>HitThemFr<img style={{width:50, height:50}} src={IconUser} alt="logo" />gs</h1>
                         <div>
                             {/* <button className="linkStyle"><Link className="btn-main"  to="/room">START</Link></button> */}
+                        </div>
+                        <div>
+                            <WebCamCapture ref={ref => this.webcam = ref }/>
                         </div>
                         <div >
                             <form onSubmit={this.validateUserName}>
@@ -103,9 +107,6 @@ export class HomePage extends Component {
                             <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
                             <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
                             </form>
-                        </div>
-                        <div>
-                            <WebCamCapture ref={ref => this.webcam = ref }/>
                         </div>
                     </div>
                 </div>
@@ -137,7 +138,11 @@ const styleInput = {
 }
 
 const styleHeader = {
-    marginTop: '8%'
+    marginTop: '10px'
+}
+
+const styleSmallHeader = {
+    fontFamily: 'Finger Paint, cursive'
 }
 
 export default HomePage
