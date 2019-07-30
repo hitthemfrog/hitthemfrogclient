@@ -25,6 +25,8 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     const delta = currentTime - timer
 
     if (isGameFinished.winner) {
+      console.log(socket)
+      socket.disconnect() 
       history.push('/gameOver')
       isGameOver = true
     }
@@ -46,13 +48,14 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
     setScoreHud(playerScores[0], playerScores[1], number)
 
-    if (delta >= 3000 ) {
-      timer = currentTime
+    if (delta >= 3000) {
       number -=1
       removeAllObjects(scene)
       initModels(scene) 
       
-      if (!store.getState().isClicked) store.dispatch(actions.addMiss())
+      if (!store.getState().isClicked && timer !== 0) store.dispatch(actions.addMiss())
+
+      timer = currentTime
       store.dispatch(actions.setClicked(false))
 
       const roomName = localStorage.getItem('htf_roomname')
