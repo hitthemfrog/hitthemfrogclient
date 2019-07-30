@@ -2,13 +2,20 @@ import * as THREE from 'three'
 import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
 
-async function importModelObject (scene, model) {
+const prefix = (process.env.NODE_ENV === 'production') ? '/hitthemfrogclient' : ''
+
+async function importModelObject (scene, imgtexture) {
   return new Promise((resolve, reject) => {
     window.THREE = THREE;
     import('three/examples/js/loaders/GLTFLoader').then(() => {
-      const gltfLoader = new window.THREE.GLTFLoader();
+      const gltfLoader = new window.THREE.GLTFLoader()
+      debugger
+      const texture = THREE.ImageUtils.loadTexture(imgtexture);
+      const model = prefix + '/models/frog.glb'
       gltfLoader.load(model, function (gltf) {
         let modelScene = gltf.scene
+        let face = gltf.scene.children.find(e => e.name === 'body001')
+        face.material.map = texture
         store.dispatch(actions.addFrogScene(modelScene))
         scene.add(modelScene)
         resolve(modelScene)
@@ -61,14 +68,13 @@ function randomCoordinate() {
   return result
 }
 
-const prefix = (process.env.NODE_ENV === 'production') ? '/hitthemfrogclient' : ''
 
 export default async function (scene) {
-  const frogModel = prefix + '/models/simple.frog.glb'
-  const monkeyModel = prefix + '/models/simple.frog.sad.glb'
+  const frogTextr = prefix + '/models/pepe.happy.png'
+  const monkeyTextr = prefix + '/models/pepe.sad.png'
   let frogs = []
   let frogObj = store.getState().frogs
-  let monkey = frogObj.length ?  frogObj[0] : await importModelObject(scene, monkeyModel)
+  let monkey = frogObj.length ?  frogObj[0] : await importModelObject(scene, monkeyTextr)
   let count = 1
   
   let coordinate = randomCoordinate()
@@ -81,7 +87,7 @@ export default async function (scene) {
       scene.add(monkey)
     } 
     else {
-      let frog = (frogObj.length < 9) ? await importModelObject(scene, frogModel) : frogObj[count++]
+      let frog = (frogObj.length < 9) ? await importModelObject(scene, frogTextr) : frogObj[count++]
       
       frog.position.set(...coordinate[i])
       scene.add(frog)
