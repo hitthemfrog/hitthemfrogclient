@@ -36,9 +36,9 @@ function createFillBackground () {
   }
 }
 
-function printStatus () {
+// function printStatus () {
 
-}
+// }
 
 export default function (el) {
   let p1 = createThree2dTextPlane()
