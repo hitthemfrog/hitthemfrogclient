@@ -130,7 +130,7 @@ export class HomePage extends Component {
                             </form>
                         </div>
                         <div>
-                            { this.state.isLoading && <div class="loader"></div>}
+                            { this.state.isLoading && <div style={loader} class="loader"></div>}
                         </div>
                         <div>
                             {   
@@ -180,6 +180,7 @@ const loader = {
     borderRadius: '50%',
     borderTop: '16px solid #3498db',
     width: '120px',
+    margin: '0 auto',
     height: '120px',
     animation: 'spin 2s linear infinite'
       
