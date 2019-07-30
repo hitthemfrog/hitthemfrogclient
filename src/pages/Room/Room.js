@@ -102,20 +102,23 @@ export class Room extends Component {
                 </div>
               </div>
               <div className="row">
-              
-                {/* 
-                            {
-                                this.state.avail_rooms.length > 0
-                                &&
-                                <> */}
-                {
-                  this.props.rooms.map((roomGame, i) => (
-                    <RoomCard
-                      history={this.props.history}
-                      socket={this.props.socket}
-                      data={roomGame}
-                      key={i} />
-                  ))
+                
+                { 
+                  // this.props.rooms.map((roomGame, i) => (
+                  //   <RoomCard
+                  //     history={this.props.history}
+                  //     socket={this.props.socket}
+                  //     data={roomGame}
+                  //     key={i} />
+                  // ))
+                  this.props.rooms.filter(room => room.players.length < 2)
+                    .map((roomGame, i) => (
+                        <RoomCard
+                          history={this.props.history}
+                          socket={this.props.socket}
+                          data={roomGame}
+                          key={i} />
+                      ))
                 }
                 {/* </>
                             }                         */}
