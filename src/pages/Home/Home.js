@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import soundfile from '../../sound/sountrack.mp3'
+import WebCamCapture from '../../component/Webcam'
+import axios from 'axios'
+import host from '../../host'
 
 import './Home.css';
 
@@ -10,21 +13,27 @@ export class HomePage extends Component {
         // statusUserName: false
     }
 
-    validateUserName = (e) => {
+    validateUserName = async (e) => {
         e.preventDefault();
         console.log('validateUserName', this.state.inputUserName)
         if (this.state.inputUserName === undefined || this.state.inputUserName === '' ){
             console.log('nama blum diisi mas')
             this.launch_toast()
         } else {
-            console.log('go to room list')
-            console.log(this.state.inputUserName)
-            localStorage.setItem('htf_username', this.state.inputUserName)
-            // this.setState({
-            //     inputUserName: ''
-            // })
-            // this.routerPushToRoom()
-            this.props.history.push('/room')
+            let formData = this.webcam.capture(this.state.inputUserName)
+            try {
+                await axios.post(`${host}/uploadImage`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                localStorage.setItem('htf_username', this.state.inputUserName)
+                this.props.history.push('/room')
+            } catch (err) {
+                alert('username udah ada')
+                console.log('go to room list')
+                console.log(this.state.inputUserName)
+            }
         }
     }
 
@@ -94,6 +103,9 @@ export class HomePage extends Component {
                             <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
                             <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
                             </form>
+                        </div>
+                        <div>
+                            <WebCamCapture ref={ref => this.webcam = ref }/>
                         </div>
                     </div>
                 </div>
