@@ -11,6 +11,8 @@ import './Home.css';
 export class HomePage extends Component {
     state = {
         inputUserName: '',
+        webcamIsActive: false,
+        isLoading: false
         // statusUserName: false
     }
 
@@ -68,12 +70,25 @@ export class HomePage extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            isLoading: true
+        })
         navigator.mediaDevices.getUserMedia({video: true})
         .then((response) => {
-            console.log('ADA',response);
+            this.setState({
+                webcamIsActive: true,
+                isLoading: false
+            })
+
+            console.log('WEBCAM IS ACTIVE',this.state.webcamIsActive);
         })
         .catch((err) => {
             console.log('GA ADAAA');
+            this.setState({
+                webcamIsActive: false,
+                isLoading: false
+            })
+            console.log('WEBCAM IS ACTIVE',this.state.webcamIsActive)
         })
         this.cekUserName()
     }
@@ -101,18 +116,35 @@ export class HomePage extends Component {
                             <WebCamCapture ref={ref => this.webcam = ref }/>
                         </div>
                         <div >
-                            <form onSubmit={this.validateUserName}>
-                                <input
-                                    style={styleInput}
-                                    name='inputUserName'
-                                    value={this.state.inputUserName}
-                                    placeholder=" Input Name here..."
-                                    onChange={this.onChange}
-                                    type="text"
-                                />
-                            <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
-                            <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
-                            </form>
+                            {   
+                            this.state.webcamIsActive == true
+                            ? <form onSubmit={this.validateUserName}>
+                            <input
+                                style={styleInput}
+                                name='inputUserName'
+                                value={this.state.inputUserName}
+                                placeholder=" Input Name here..."
+                                onChange={this.onChange}
+                                type="text"
+                            />
+                                <div id="toast">
+                                    <div id="img"> <i className="material-icons">error</i></div>
+                                    <div id="desc">Please Input your name..</div>
+                                </div>
+                                <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
+                                </form>
+                            :null
+                            }
+                        </div>
+                        <div>
+                            { this.state.isLoading && <div style={loader} class="loader"></div>}
+                        </div>
+                        <div>
+                            {   
+                            this.state.webcamIsActive == false
+                            ? <h4 style={styleSmallHeader}>Turn on your webcam first</h4>
+                            :null
+                            }
                         </div>
                     </div>
                 </div>
@@ -149,6 +181,16 @@ const styleHeader = {
 
 const styleSmallHeader = {
     fontFamily: 'Finger Paint, cursive'
+}
+const loader = {
+    border: '16px solid #f3f3f3',
+    borderRadius: '50%',
+    borderTop: '16px solid #3498db',
+    width: '120px',
+    margin: '0 auto',
+    height: '120px',
+    animation: 'spin 2s linear infinite'
+      
 }
 
 export default HomePage
