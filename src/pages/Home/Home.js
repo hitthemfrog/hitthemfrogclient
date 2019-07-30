@@ -5,8 +5,18 @@ import WebCamCapture from '../../component/Webcam'
 import axios from 'axios'
 import host from '../../host'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
+import { css } from '@emotion/core';
+// import { ClipLoader } from 'react-spinners';
+// Another way to import
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import './Home.css';
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: gray;
+`;
 
 export class HomePage extends Component {
     state = {
@@ -113,8 +123,13 @@ export class HomePage extends Component {
                             {/* <button className="linkStyle"><Link className="btn-main"  to="/room">START</Link></button> */}
                         </div>
                         <div>
-                            <WebCamCapture ref={ref => this.webcam = ref }/>
+                            {   
+                            this.state.webcamIsActive == false
+                            ? <h4 style={webcamMessage}>Turn on your webcam first</h4>
+                            :<WebCamCapture ref={ref => this.webcam = ref }/>
+                            }
                         </div>
+                        
                         <div >
                             {   
                             this.state.webcamIsActive == true
@@ -137,15 +152,16 @@ export class HomePage extends Component {
                             }
                         </div>
                         <div>
-                            { this.state.isLoading && <div style={loader} class="loader"></div>}
-                        </div>
-                        <div>
-                            {   
-                            this.state.webcamIsActive == false
-                            ? <h4 style={styleSmallHeader}>Turn on your webcam first</h4>
-                            :null
+                            { this.state.isLoading && <ClipLoader
+                                css={override}
+                                sizeUnit={"px"}
+                                size={150}
+                                color={'#123abc'}
+                                loading={this.state.loading}
+                                />
                             }
                         </div>
+                        
                     </div>
                 </div>
             }
@@ -182,15 +198,10 @@ const styleHeader = {
 const styleSmallHeader = {
     fontFamily: 'Finger Paint, cursive'
 }
-const loader = {
-    border: '16px solid #f3f3f3',
-    borderRadius: '50%',
-    borderTop: '16px solid #3498db',
-    width: '120px',
-    margin: '0 auto',
-    height: '120px',
-    animation: 'spin 2s linear infinite'
-      
+
+const webcamMessage = {
+    fontFamily: 'Finger Paint, cursive',
+    marginTop: '100px'
 }
 
 export default HomePage
