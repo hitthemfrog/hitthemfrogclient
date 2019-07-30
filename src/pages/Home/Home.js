@@ -130,6 +130,9 @@ export class HomePage extends Component {
                             </form>
                         </div>
                         <div>
+                            { this.state.isLoading && <div class="loader"></div>}
+                        </div>
+                        <div>
                             {   
                             this.state.webcamIsActive == false
                             ? <h4 style={styleSmallHeader}>Turn on your webcam to insert photo</h4>
@@ -171,6 +174,15 @@ const styleHeader = {
 
 const styleSmallHeader = {
     fontFamily: 'Finger Paint, cursive'
+}
+const loader = {
+    border: '16px solid #f3f3f3',
+    borderRadius: '50%',
+    borderTop: '16px solid #3498db',
+    width: '120px',
+    height: '120px',
+    animation: 'spin 2s linear infinite'
+      
 }
 
 export default HomePage
