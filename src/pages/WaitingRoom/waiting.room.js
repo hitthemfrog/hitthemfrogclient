@@ -1,9 +1,7 @@
 import React from 'react'
-import Loading from '../../component/Loading'
 import { connect } from 'react-redux'
-import Loading2 from '../../component/Loading2'
 import LoadingBlock from '../../component/LoadingBlock'
-import soundfile from '../../sound/sountrack.mp3'
+import soundfile from '../../sound/sountrack_mini.mp3'
 import SoundCountdown from '../../sound/Game-start-countdown.mp3'
 
 const countdownStyle = {
@@ -49,7 +47,7 @@ export default connect(mapStateToProps)(
     }
     
     componentDidUpdate() {
-      let roomName = localStorage.getItem('htf_roomname')
+      // let roomName = localStorage.getItem('htf_roomname')
       this.checkPlayers()  
       
     }

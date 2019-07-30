@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
-import soundfile from '../../sound/sountrack.mp3'
+import soundfile from '../../sound/sountrack_mini.mp3'
+import LoadingBlock from '../../component/Loading2'
 import WebCamCapture from '../../component/Webcam'
 import axios from 'axios'
 import host from '../../host'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
 import { css } from '@emotion/core';
-// import { ClipLoader } from 'react-spinners';
+import { ClipLoader } from 'react-spinners';
 // Another way to import
-import ClipLoader from 'react-spinners/ClipLoader';
+// import ClipLoader from 'react-spinners/ClipLoader';
 
 import './Home.css';
 
@@ -22,7 +22,9 @@ export class HomePage extends Component {
     state = {
         inputUserName: '',
         webcamIsActive: false,
-        isLoading: false
+        isLoading: false,
+        errMessage: '',
+        dataReady: false
         // statusUserName: false
     }
 
@@ -31,7 +33,7 @@ export class HomePage extends Component {
         console.log('validateUserName', this.state.inputUserName)
         if (this.state.inputUserName === undefined || this.state.inputUserName === '' ){
             console.log('nama blum diisi mas')
-            this.launch_toast()
+            this.launch_toast('Please Input your name..')
         } else {
             let formData = this.webcam.capture(this.state.inputUserName)
             try {
@@ -43,18 +45,13 @@ export class HomePage extends Component {
                 localStorage.setItem('htf_username', this.state.inputUserName)
                 this.props.history.push('/room')
             } catch (err) {
-                alert('username udah ada')
+                this.launch_toast('Username already exist')
+                // alert('username udah ada')
                 console.log('go to room list')
                 console.log(this.state.inputUserName)
             }
         }
     }
-
-    // routerPushToRoom(){
-    //     this.setState({
-    //         statusUserName: true
-    //     })
-    // }
     
     onChange = (e) => this.setState({
         [e.target.name]: e.target.value
@@ -64,7 +61,11 @@ export class HomePage extends Component {
         console.log(value)
     }
 
-    launch_toast() {
+    launch_toast(message) {
+        console.log('masuk launct toast', message)
+        this.setState({
+            errMessage: message
+        })
         var x = document.getElementById("toast")
         x.className = "show";
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
@@ -80,6 +81,11 @@ export class HomePage extends Component {
     }
 
     componentDidMount() {
+        let backsoundAudio = new Audio();
+        backsoundAudio.src = soundfile
+        // console.log('load mp3')
+        // backsoundAudio.play()
+            // console.log('done loading mp3')
         this.setState({
             isLoading: true
         })
@@ -109,7 +115,7 @@ export class HomePage extends Component {
             <>
             {
                 <div>
-                    <audio src={soundfile} autoPlay/>
+                    <audio src={soundfile} autoPlay loop/>
                 </div>
             }
             {
@@ -132,7 +138,7 @@ export class HomePage extends Component {
                         
                         <div >
                             {   
-                            this.state.webcamIsActive == true
+                            this.state.webcamIsActive === true
                             ? <form onSubmit={this.validateUserName}>
                             <input
                                 style={styleInput}
@@ -144,9 +150,10 @@ export class HomePage extends Component {
                             />
                                 <div id="toast">
                                     <div id="img"> <i className="material-icons">error</i></div>
-                                    <div id="desc">Please Input your name..</div>
+                                    <div id="desc">{this.state.errMessage}</div>
                                 </div>
                                 <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
+                                
                                 </form>
                             :null
                             }
@@ -164,11 +171,6 @@ export class HomePage extends Component {
                         
                     </div>
                 </div>
-            }
-            {
-                // this.state.statusUserName
-                // &&
-                // <Redirect to='/room' />
             }
             </>
         )
@@ -202,6 +204,15 @@ const styleSmallHeader = {
 const webcamMessage = {
     fontFamily: 'Finger Paint, cursive',
     marginTop: '100px'
+}
+const loader = {
+    border: '16px solid #f3f3f3',
+    borderRadius: '50%',
+    borderTop: '16px solid #3498db',
+    width: '120px',
+    margin: '0 auto',
+    height: '120px',
+    animation: 'spin 2s linear infinite'
 }
 
 export default HomePage
