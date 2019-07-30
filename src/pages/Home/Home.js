@@ -120,16 +120,17 @@ export class HomePage extends Component {
                     <h3 className="show-on-small hide-on-med-and-up" style={styleSmallHeader}>HitThemFr<img style={{width:25, height:25}} src={IconUser} alt="logo" />gs</h3>                    
                     <h1 className="hide-on-small-and-down" style={styleHeader}>HitThemFr<img style={{width:50, height:50}} src={IconUser} alt="logo" />gs</h1>
                         <div>
-                            {/* <button className="linkStyle"><Link className="btn-main"  to="/room">START</Link></button> */}
-                        </div>
-                        <div>
-                            {   
+
+                        {   
                             this.state.webcamIsActive == false
                             ? <h4 style={webcamMessage}>Turn on your webcam first</h4>
                             :<WebCamCapture ref={ref => this.webcam = ref }/>
-                            }
+                        }
                         </div>
-                        
+                        <div>
+                            {/* {this.state.webcamIsActive == false && } */}
+                        {/* <WebCamCapture ref={ref => this.webcam = ref }/> */}
+                        </div>
                         <div >
                             {   
                             this.state.webcamIsActive == true
@@ -160,6 +161,7 @@ export class HomePage extends Component {
                                 loading={this.state.loading}
                                 />
                             }
+                    
                         </div>
                         
                     </div>
