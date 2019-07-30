@@ -5,8 +5,18 @@ import WebCamCapture from '../../component/Webcam'
 import axios from 'axios'
 import host from '../../host'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
+import { css } from '@emotion/core';
+// import { ClipLoader } from 'react-spinners';
+// Another way to import
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import './Home.css';
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: gray;
+`;
 
 export class HomePage extends Component {
     state = {
@@ -137,7 +147,14 @@ export class HomePage extends Component {
                             }
                         </div>
                         <div>
-                            { this.state.isLoading && <div style={loader} class="loader"></div>}
+                            { this.state.isLoading && <ClipLoader
+                                css={override}
+                                sizeUnit={"px"}
+                                size={150}
+                                color={'#123abc'}
+                                loading={this.state.loading}
+                                />
+                            }
                         </div>
                         <div>
                             {   
@@ -190,7 +207,6 @@ const loader = {
     margin: '0 auto',
     height: '120px',
     animation: 'spin 2s linear infinite'
-      
 }
 
 export default HomePage
