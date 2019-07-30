@@ -67,7 +67,13 @@ export class HomePage extends Component {
     }
 
     componentDidMount() {
-        console.log('componentDidMount trigger')
+        navigator.mediaDevices.getUserMedia({video: true})
+        .then((response) => {
+            console.log('ADA',response);
+        })
+        .catch((err) => {
+            console.log('GA ADAAA');
+        })
         this.cekUserName()
     }
 

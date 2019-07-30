@@ -25,8 +25,6 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     const delta = currentTime - timer
 
     if (isGameFinished.winner) {
-      console.log(socket)
-      socket.disconnect() 
       history.push('/gameOver')
       isGameOver = true
     }

@@ -8,8 +8,7 @@ async function importModelObject (scene, imgtexture) {
   return new Promise((resolve, reject) => {
     window.THREE = THREE;
     import('three/examples/js/loaders/GLTFLoader').then(() => {
-      const gltfLoader = new window.THREE.GLTFLoader()
-      debugger
+      const gltfLoader = new window.THREE.GLTFLoader();
       const texture = THREE.ImageUtils.loadTexture(imgtexture);
       const model = prefix + '/models/frog.glb'
       gltfLoader.load(model, function (gltf) {
