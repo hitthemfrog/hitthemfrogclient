@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "54e83709288f6f17e77876654975fd1d",
+    "revision": "0a8e06ea95a461f9051018777d8a471b",
     "url": "/hitthemfrogclient/index.html"
   },
   {
-    "revision": "96d033675a0934308978",
+    "revision": "70debe985b4c75c9ee15",
     "url": "/hitthemfrogclient/static/css/main.4758444f.chunk.css"
   },
   {
-    "revision": "959fbada8083f7ddf234",
-    "url": "/hitthemfrogclient/static/js/2.3a8319bd.chunk.js"
+    "revision": "fb7fc7ba4d4d9b0f4f34",
+    "url": "/hitthemfrogclient/static/js/2.03903a8e.chunk.js"
   },
   {
-    "revision": "2f8b52d0ba287130845a",
-    "url": "/hitthemfrogclient/static/js/3.3e39dd00.chunk.js"
+    "revision": "e410215b3223118e05fe",
+    "url": "/hitthemfrogclient/static/js/3.b6ea06a3.chunk.js"
   },
   {
-    "revision": "96d033675a0934308978",
-    "url": "/hitthemfrogclient/static/js/main.9221fba8.chunk.js"
+    "revision": "70debe985b4c75c9ee15",
+    "url": "/hitthemfrogclient/static/js/main.28f899b8.chunk.js"
   },
   {
-    "revision": "97faac7489522a74fe48",
-    "url": "/hitthemfrogclient/static/js/runtime~main.357045e7.js"
+    "revision": "97d57187a4c09a7ac2a3",
+    "url": "/hitthemfrogclient/static/js/runtime~main.fb4a5164.js"
   },
   {
     "revision": "9e2dc1dbf249e4e6a3f2e9a51d514b04",
@@ -68,12 +68,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hitthemfrogclient/static/media/Wedges-3s-200px.531ef8db.svg"
   },
   {
-    "revision": "1f6aba09b77c5d7434a01fd873c0ec0f",
-    "url": "/hitthemfrogclient/static/media/crazyFrog.1f6aba09.mp3"
+    "revision": "040589c63dbc1135d7b5e26a7e095b8c",
+    "url": "/hitthemfrogclient/static/media/frogsoundeffect.040589c6.mp3"
   },
   {
-    "revision": "15424912ffabe07dbb6f95944a8af3ef",
-    "url": "/hitthemfrogclient/static/media/incorrect.15424912.mp3"
+    "revision": "a04b28ff8a6b1752059110478f257273",
+    "url": "/hitthemfrogclient/static/media/gameSound.a04b28ff.mp3"
   },
   {
     "revision": "fafc144101626efe0cbaa46951afed7b",
