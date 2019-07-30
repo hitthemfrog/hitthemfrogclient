@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { actions } from '../../store/game.action.reducer.type'
 
 const mapStateToProps = state => {
   return {
     isGameFinished: state.isGameFinished
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    clearGame: () => dispatch(actions.clearGame())
   }
 }
 
@@ -21,6 +28,10 @@ function Gameover (props) {
   useEffect(() => {
     props.socket.emit('leaveRoom', localStorage.getItem('htf_roomname') );
     localStorage.removeItem('htf_roomname');
+
+    return () => {
+      props.clearGame()
+    }
   }, [])
 
   if (!props.isGameFinished.score) return props.history.push('/room');
@@ -57,5 +68,5 @@ function Gameover (props) {
   )
 }  
 
-export default connect(mapStateToProps)(Gameover) 
+export default connect(mapStateToProps, mapDispatchToProps)(Gameover) 
   
