@@ -11,6 +11,8 @@ import './Home.css';
 export class HomePage extends Component {
     state = {
         inputUserName: '',
+        webcamIsActive: false,
+        isLoading: false
         // statusUserName: false
     }
 
@@ -68,12 +70,25 @@ export class HomePage extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            isLoading: true
+        })
         navigator.mediaDevices.getUserMedia({video: true})
         .then((response) => {
-            console.log('ADA',response);
+            this.setState({
+                webcamIsActive: true,
+                isLoading: false
+            })
+
+            console.log('WEBCAM IS ACTIVE',this.state.webcamIsActive);
         })
         .catch((err) => {
             console.log('GA ADAAA');
+            this.setState({
+                webcamIsActive: false,
+                isLoading: false
+            })
+            console.log('WEBCAM IS ACTIVE',this.state.webcamIsActive)
         })
         this.cekUserName()
     }
@@ -113,6 +128,13 @@ export class HomePage extends Component {
                             <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
                             <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
                             </form>
+                        </div>
+                        <div>
+                            {   
+                            this.state.webcamIsActive == false
+                            ? <h4 style={styleSmallHeader}>Turn on your webcam to insert photo</h4>
+                            :null
+                            }
                         </div>
                     </div>
                 </div>
