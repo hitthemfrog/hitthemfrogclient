@@ -116,18 +116,25 @@ export class HomePage extends Component {
                             <WebCamCapture ref={ref => this.webcam = ref }/>
                         </div>
                         <div >
-                            <form onSubmit={this.validateUserName}>
-                                <input
-                                    style={styleInput}
-                                    name='inputUserName'
-                                    value={this.state.inputUserName}
-                                    placeholder=" Input Name here..."
-                                    onChange={this.onChange}
-                                    type="text"
-                                />
-                            <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
-                            <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
-                            </form>
+                            {   
+                            this.state.webcamIsActive == true
+                            ? <form onSubmit={this.validateUserName}>
+                            <input
+                                style={styleInput}
+                                name='inputUserName'
+                                value={this.state.inputUserName}
+                                placeholder=" Input Name here..."
+                                onChange={this.onChange}
+                                type="text"
+                            />
+                                <div id="toast">
+                                    <div id="img"> <i className="material-icons">error</i></div>
+                                    <div id="desc">Please Input your name..</div>
+                                </div>
+                                <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
+                                </form>
+                            :null
+                            }
                         </div>
                         <div>
                             { this.state.isLoading && <div style={loader} class="loader"></div>}
@@ -135,7 +142,7 @@ export class HomePage extends Component {
                         <div>
                             {   
                             this.state.webcamIsActive == false
-                            ? <h4 style={styleSmallHeader}>Turn on your webcam to insert photo</h4>
+                            ? <h4 style={styleSmallHeader}>Turn on your webcam first</h4>
                             :null
                             }
                         </div>
