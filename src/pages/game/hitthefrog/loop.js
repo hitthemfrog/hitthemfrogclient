@@ -3,7 +3,6 @@ import { actions } from '../../../store/game.action.reducer.type'
 import { paintObjectOnIntersect, removeAllObjects } from './helpers'
 import initModels from './init.models'
 
-
 export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreHud, socket, history) {
    
   // function onWindowResize() {
@@ -47,6 +46,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     setScoreHud(playerScores[0], playerScores[1], number)
 
     if (delta >= 3000) {
+      store.dispatch(actions.setClickedIntersections([]))
       number -=1
       removeAllObjects(scene)
       initModels(scene) 
