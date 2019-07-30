@@ -9,6 +9,36 @@
     position: absolute;
 }
 
+.webCamBox{
+    width: 90%;
+    height: 90%;
+    background:rgba(0,0,0,.5);
+    color: #fff;
+    top: 50%;
+    left: 45%;
+    position: absolute;
+    transform: translate(-50%,-50%) ;
+    box-sizing: border-box;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+
+.webCamBoxLarge{
+    overflow-x: hidden;
+    width: 90%;
+     /* width: 700px; */
+    height: 90%;
+    background:rgba(0,0,0,.6);
+    color: #fff;
+    top: 50%;
+    left: 45%;
+    position: absolute;
+    transform: translate(-50%,-50%) ;
+    box-sizing: border-box;
+    padding: 20px 20px;
+    border-radius: 5px;
+}
+
 .startGameStyle h1 {
     /* font-family: 'Monofett', cursive; */
     font-family: 'Finger Paint', cursive;

@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import soundfile from '../../sound/sountrack.mp3'
-import WebCamCapture from '../../component/Webcam'
-import axios from 'axios'
-import host from '../../host'
-import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
-
-import './Home.css';
 
 export class HomePage extends Component {
     state = {
@@ -14,27 +8,21 @@ export class HomePage extends Component {
         // statusUserName: false
     }
 
-    validateUserName = async (e) => {
+    validateUserName = (e) => {
         e.preventDefault();
         console.log('validateUserName', this.state.inputUserName)
         if (this.state.inputUserName === undefined || this.state.inputUserName === '' ){
             console.log('nama blum diisi mas')
             this.launch_toast()
         } else {
-            let formData = this.webcam.capture(this.state.inputUserName)
-            try {
-                await axios.post(`${host}/uploadImage`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                localStorage.setItem('htf_username', this.state.inputUserName)
-                this.props.history.push('/room')
-            } catch (err) {
-                alert('username udah ada')
-                console.log('go to room list')
-                console.log(this.state.inputUserName)
-            }
+            console.log('go to room list')
+            console.log(this.state.inputUserName)
+            localStorage.setItem('htf_username', this.state.inputUserName)
+            // this.setState({
+            //     inputUserName: ''
+            // })
+            // this.routerPushToRoom()
+            this.props.history.push('/room')
         }
     }
 
@@ -68,13 +56,7 @@ export class HomePage extends Component {
     }
 
     componentDidMount() {
-        navigator.mediaDevices.getUserMedia({video: true})
-        .then((response) => {
-            console.log('ADA',response);
-        })
-        .catch((err) => {
-            console.log('GA ADAAA');
-        })
+        console.log('componentDidMount trigger')
         this.cekUserName()
     }
 
@@ -90,15 +72,12 @@ export class HomePage extends Component {
             {
                 !this.state.statusUserName
                 &&
-                <div id="style-15" className='row webCamBoxLarge scrollbar force-overflow"'>
+                <div className='row'>
                     <div className="startGameStyle col s12 m12 l12">
-                    <h3 className="show-on-small hide-on-med-and-up" style={styleSmallHeader}>HitThemFr<img style={{width:25, height:25}} src={IconUser} alt="logo" />gs</h3>                    
-                    <h1 className="hide-on-small-and-down" style={styleHeader}>HitThemFr<img style={{width:50, height:50}} src={IconUser} alt="logo" />gs</h1>
+                    <h1 className="show-on-small hide-on-med-and-up">ini login</h1>                    
+                    <h1 className="hide-on-med-and-down" style={styleHeader}>HitThatFrogs</h1>
                         <div>
                             {/* <button className="linkStyle"><Link className="btn-main"  to="/room">START</Link></button> */}
-                        </div>
-                        <div>
-                            <WebCamCapture ref={ref => this.webcam = ref }/>
                         </div>
                         <div >
                             <form onSubmit={this.validateUserName}>
@@ -110,6 +89,15 @@ export class HomePage extends Component {
                                     onChange={this.onChange}
                                     type="text"
                                 />
+                                <input
+                                    style={styleInput}
+                                    name='inputUserName'
+                                    value={this.state.inputUserName}
+                                    placeholder=" Input Name here..."
+                                    onChange={this.onChange}
+                                    type="text"
+                                />
+
                             <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please Input your name..</div></div>
                             <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
                             </form>
@@ -144,11 +132,7 @@ const styleInput = {
 }
 
 const styleHeader = {
-    marginTop: '10px'
-}
-
-const styleSmallHeader = {
-    fontFamily: 'Finger Paint, cursive'
+    marginTop: '8%'
 }
 
 export default HomePage

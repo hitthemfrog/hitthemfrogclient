@@ -16,7 +16,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
   
   let frogLegAnimationForward = true
   let timer = 0
-  let number = 6
+  let number =6
   let isGameOver = false
 
   function loop (currentTime) {

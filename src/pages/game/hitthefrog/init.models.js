@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
+import HOST from '../../../host'
+import client from '../../../store/store'
 
 const prefix = (process.env.NODE_ENV === 'production') ? '/hitthemfrogclient' : ''
 
@@ -8,8 +10,10 @@ async function importModelObject (scene, imgtexture) {
   return new Promise((resolve, reject) => {
     window.THREE = THREE;
     import('three/examples/js/loaders/GLTFLoader').then(() => {
-      const gltfLoader = new window.THREE.GLTFLoader();
-      const texture = THREE.ImageUtils.loadTexture(imgtexture);
+      const gltfLoader = new window.THREE.GLTFLoader()
+      const textureLoader = new THREE.TextureLoader()
+      textureLoader.setCrossOrigin = 'anonymous'
+      const texture = textureLoader.load(imgtexture);
       const model = prefix + '/models/frog.glb'
       gltfLoader.load(model, function (gltf) {
         let modelScene = gltf.scene
@@ -67,10 +71,20 @@ function randomCoordinate() {
   return result
 }
 
+function getPlayersTextureUrl () {
+  let currentPlayer = localStorage.getItem('htf_username')
+  let currentRoom = localStorage.getItem('htf_roomname')
+  let { rooms } = client.getState()
+  let room = rooms.find(e => e.name === currentRoom)
+  let otherPlayers = room.players.filter(e => e.name !== currentPlayer)
+  let otherPlayerName = otherPlayers[0] && otherPlayers[0].name
+  let player1Url = `${HOST}/userimg/${currentPlayer}.png`
+  let player2Url = `${HOST}/userimg/${otherPlayerName}.png`
+  return [player1Url, player2Url]
+}
 
 export default async function (scene) {
-  const frogTextr = prefix + '/models/pepe.happy.png'
-  const monkeyTextr = prefix + '/models/pepe.sad.png'
+  const [frogTextr, monkeyTextr] = getPlayersTextureUrl()
   let frogs = []
   let frogObj = store.getState().frogs
   let monkey = frogObj.length ?  frogObj[0] : await importModelObject(scene, monkeyTextr)

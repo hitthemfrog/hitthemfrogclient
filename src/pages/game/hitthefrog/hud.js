@@ -47,7 +47,7 @@ export default function (el) {
 
   p1.plane.position.set(0, (window.innerHeight / 2) - 30, 0)
   p2.plane.position.set(0, (window.innerHeight / 2) - 60, 0)
-  background.plane.position.set(-3, (window.innerHeight / 2) - 30, 0)
+  background.plane.position.set(0, (window.innerHeight / 2) - 30, -3)
   let sceneHUD = new THREE.Scene();
 
   sceneHUD.add(p1.plane)
@@ -57,13 +57,13 @@ export default function (el) {
 
   const setScoreHUD = (player1, player2, countdown) => {
     p1.hudCanvasContext.clearRect(0, 0, width, height);
-    p1.hudCanvasContext.fillStyle = ("rgba(1,1, 1,1)")
+    // p1.hudCanvasContext.fillStyle = ("rgba(1,1, 1,1)")
     p1.hudCanvasContext.fillText(`${player1.name} Hit: ${player1.hit} Miss: ${player1.miss} 
     Count Down: ${countdown}`, width / 2, height / 2);
     p1.hudTexture.needsUpdate = true
 
     p2.hudCanvasContext.clearRect(0, 0, width, height);
-    p2.hudCanvasContext.fillStyle = ("rgba(200,1,1,1)")
+    // p2.hudCanvasContext.fillStyle = ("rgba(255,255,255,1)")
     p2.hudCanvasContext.fillText(`${player2.name} Hit: ${player2.hit} Miss: ${player2.miss} 
     Count Down: ${countdown}`, width / 2, height / 2);
     p2.hudTexture.needsUpdate = true
