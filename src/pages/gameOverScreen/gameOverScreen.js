@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -8,11 +8,20 @@ const mapStateToProps = state => {
   }
 }
 
-function gameover (props) {
-  const username = localStorage.getItem('htf_username')
-  const isWinner = username === props.isGameFinished.winner
 
-  if (!props.isGameFinished.score) return props.history.push('/room')
+
+function Gameover (props) {
+
+  const username = localStorage.getItem('htf_username');
+  const isWinner = username === props.isGameFinished.winner;
+
+  useEffect(() => {
+    props.socket.emit('leaveRoom', localStorage.getItem('htf_roomname') );
+    localStorage.removeItem('htf_roomname');
+  }, [])
+
+  if (!props.isGameFinished.score) return props.history.push('/room');
+
 
   return (
   <div id="style-15" className="roomBox scrollbar force-overflow">
@@ -32,15 +41,13 @@ function gameover (props) {
         <h3 className="playerNameStyle">Score: { props.isGameFinished.score[username] }</h3>
 
         <button id="new-game-button" className="btnnya-main linkStyle" onClick={ () => {
-          localStorage.removeItem('htf_roomname')
-          props.history.push('/room')
+          props.history.push('/room');
         }}>AYO MAIN LAGI</button>
-
       </div>
     </div>      
   </div>
   )
 }  
 
-export default connect(mapStateToProps)(gameover) 
+export default connect(mapStateToProps)(Gameover) 
   
