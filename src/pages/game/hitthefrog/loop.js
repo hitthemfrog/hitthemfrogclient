@@ -21,7 +21,6 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
   let speedLevel = getSpeedLevel()
   let yDirection = 0.065
 
-  console.log('LEVEL', speedLevel)
   function loop (currentTime) {
     let state = store.getState()
     let { intersects, frogs, playerScores, isGameFinished } = state
@@ -63,7 +62,6 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
       const roomName = localStorage.getItem('htf_roomname')
       const playerName = localStorage.getItem('htf_username')
-      console.log(store.getState().frogs)
       socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: state.hitScore, miss: state.missScore })
 
       yDirection = -yDirection

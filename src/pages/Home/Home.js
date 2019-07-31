@@ -34,9 +34,7 @@ export class HomePage extends Component {
         let audioButton = new Audio();
         audioButton.src = frogSound
         audioButton.play()
-        console.log('validateUserName', this.state.inputUserName)
         if (this.state.inputUserName === undefined || this.state.inputUserName === '' ){
-            console.log('nama blum diisi mas')
             this.launch_toast('Please Input your name..')
         } else {
             let formData = this.webcam.capture(this.state.inputUserName)
@@ -51,9 +49,6 @@ export class HomePage extends Component {
                 
             } catch (err) {
                 this.launch_toast('Username already exist')
-                // alert('username udah ada')
-                // console.log('go to room list')
-                console.log(this.state.inputUserName)
             }
         }
     }
@@ -62,12 +57,7 @@ export class HomePage extends Component {
         [e.target.name]: e.target.value
     })
 
-    changeInputUserName(value){
-        console.log(value)
-    }
-
     launch_toast(message) {
-        console.log('masuk launct toast', message)
         this.setState({
             errMessage: message
         })
@@ -78,9 +68,7 @@ export class HomePage extends Component {
 
     cekUserName() {
         let userNameLogin = localStorage.getItem('htf_username')
-        console.log(userNameLogin, " adalah ")
         if (userNameLogin) {
-            // this.routerPushToRoom()
             this.props.history.push('/room')
         }
     }
@@ -88,9 +76,6 @@ export class HomePage extends Component {
     componentDidMount() {
         let backsoundAudio = new Audio();
         backsoundAudio.src = soundfile
-        // console.log('load mp3')
-        // backsoundAudio.play()
-            // console.log('done loading mp3')
         this.setState({
             isLoading: true
         })
@@ -101,15 +86,12 @@ export class HomePage extends Component {
                 isLoading: false
             })
 
-            console.log('WEBCAM IS ACTIVE',this.state.webcamIsActive);
         })
         .catch((err) => {
-            console.log('GA ADAAA');
             this.setState({
                 webcamIsActive: false,
                 isLoading: false
             })
-            console.log('WEBCAM IS ACTIVE',this.state.webcamIsActive)
         })
         this.cekUserName()
     }

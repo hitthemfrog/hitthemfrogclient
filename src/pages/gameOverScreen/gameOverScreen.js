@@ -18,7 +18,6 @@ const mapDispatchToProps = dispatch => {
 
 
 function Gameover (props) {
-  console.log(props, " ini props")
   const {socket, clearGame} = props
   
   useEffect(() => {

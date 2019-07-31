@@ -34,7 +34,6 @@ export class RoomList extends Component {
                         localStorage.setItem('htf_roomname', this.props.data.name)
                         this.props.socket.emit('joinRoom', { roomName: this.props.data.name, playerName: localStorage.getItem('htf_username') }, function (val) {
                           if (val) {
-                            console.log('masuk if waiting room')
                             self.props.history.push('/waitingRoom')
                           } else {
                             /**
