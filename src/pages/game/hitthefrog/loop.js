@@ -21,7 +21,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
   let speedLevel = getSpeedLevel()
   let yDirection = 0.065
 
-  if (speedLevel === 1000) yDirection = 0.115
+  // if (speedLevel === 1000) yDirection = 0.115
 
   function loop (currentTime) {
     let state = store.getState()
