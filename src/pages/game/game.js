@@ -5,15 +5,29 @@ import { mouseClickListener, mouseMoveListener } from './hitthefrog/events'
 import loop from './hitthefrog/loop'
 import initHud from './hitthefrog/hud'
 import gameSoundMini from '../../sound/gameSoundMini.mp3'
+import store from '../../store/store'
 // import { Redirect } from 'react-router-dom'
 
 class Game extends Component {
-  
-  async componentDidMount() {
-  
-    if (!localStorage.getItem('htf_roomname')){
+
+  checkRoom() {
+    let currentRoom = localStorage.getItem('htf_roomname')
+    let { rooms } = store.getState()
+    let room = rooms.find(e => e.name === currentRoom)
+    if (!room) {
       this.props.history.push('/room')
-      return null  
+      return false
+    } else {
+      return true
+    }
+  }
+
+  async componentDidMount() {
+    if (!this.checkRoom()) return
+
+    if (!localStorage.getItem('htf_roomname')) {
+      this.props.history.push('/room')
+      return null
     } else {
       let setup = sceneSetup(this.gameThree)
       let { sceneHUD, setScoreHUD, cameraHUD } = initHud(this.gameThree)
@@ -25,14 +39,18 @@ class Game extends Component {
     }
   }
 
+  componentWillUnmount() {
+    localStorage.removeItem('htf_roomname')
+  }
+
   render() {
     return (
       <>
-      <div>
-          <audio src={gameSoundMini} autoPlay loop/>
-      </div>
+        <div>
+          <audio src={gameSoundMini} autoPlay loop />
+        </div>
         <div ref={ref => (this.gameThree = ref)} />
-      {/* {
+        {/* {
         !localStorage.getItem('htf_roomname') &&
         <Redirect to="/room"/>
       } */}
