@@ -1,33 +1,13 @@
-import * as THREE from 'three'
 import store from '../../../store/store'
+import { getPlayersTextureUrl } from './helpers'
+import assetLoader from './assetLoader'
 import { actions } from '../../../store/game.action.reducer.type'
-import HOST from '../../../host'
-import client from '../../../store/store'
 
-const prefix = (process.env.NODE_ENV === 'production') ? '/hitthemfrogclient' : ''
 
-async function importModelObject (scene, imgtexture) {
-  return new Promise((resolve, reject) => {
-    window.THREE = THREE;
-    import('three/examples/js/loaders/GLTFLoader').then(() => {
-      const gltfLoader = new window.THREE.GLTFLoader()
-      const textureLoader = new THREE.TextureLoader()
-      textureLoader.setCrossOrigin = 'anonymous'
-      const texture = textureLoader.load(imgtexture);
-      const model = prefix + '/models/frog.glb'
-      gltfLoader.load(model, function (gltf) {
-        let modelScene = gltf.scene
-        let face = gltf.scene.children.find(e => e.name === 'body001')
-        face.material.map = texture
-        store.dispatch(actions.addFrogScene(modelScene))
-        scene.add(modelScene)
-        resolve(modelScene)
-      }, undefined, function (error) {
-        console.error(error)
-        reject(error)
-      })
-    })
-  })
+function importModelObject (scene, texture) {
+  let model = assetLoader.getModel(texture)
+  store.dispatch(actions.addFrogScene(model))
+  return model
 }
 
 const xyCoordinate = [
@@ -71,23 +51,13 @@ function randomCoordinate() {
   return result
 }
 
-function getPlayersTextureUrl () {
-  let currentPlayer = localStorage.getItem('htf_username')
-  let currentRoom = localStorage.getItem('htf_roomname')
-  let { rooms } = client.getState()
-  let room = rooms.find(e => e.name === currentRoom)
-  let otherPlayers = room.players.filter(e => e.name !== currentPlayer)
-  let otherPlayerName = otherPlayers[0] && otherPlayers[0].name
-  let player1Url = `${HOST}/userimg/${currentPlayer}.png`
-  let player2Url = `${HOST}/userimg/${otherPlayerName}.png`
-  return [player1Url, player2Url]
-}
 
-export default async function (scene) {
+
+export default function (scene) {
   const [frogTextr, monkeyTextr] = getPlayersTextureUrl()
   let frogs = []
   let frogObj = store.getState().frogs
-  let monkey = frogObj.length ?  frogObj[0] : await importModelObject(scene, monkeyTextr)
+  let monkey = frogObj.length ?  frogObj[0] : importModelObject(scene, monkeyTextr)
   let count = 1
   
   let coordinate = randomCoordinate()
@@ -100,8 +70,7 @@ export default async function (scene) {
       scene.add(monkey)
     } 
     else {
-      let frog = (frogObj.length < 9) ? await importModelObject(scene, frogTextr) : frogObj[count++]
-      
+      let frog = (frogObj.length < 9) ? importModelObject(scene, frogTextr) : frogObj[count++]
       frog.position.set(...coordinate[i])
       scene.add(frog)
     }
