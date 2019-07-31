@@ -7,9 +7,6 @@ import axios from 'axios'
 import host from '../../host'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
 import { css } from '@emotion/core';
-import { ClipLoader } from 'react-spinners';
-// Another way to import
-// import ClipLoader from 'react-spinners/ClipLoader';
 
 import './Home.css';
 
@@ -152,17 +149,6 @@ export class HomePage extends Component {
                             :null
                             }
                         </div>
-                        <div>
-                            { this.state.isLoading && <ClipLoader
-                                css={override}
-                                sizeUnit={"px"}
-                                size={150}
-                                color={'#123abc'}
-                                loading={this.state.loading}
-                                />
-                            }
-                    
-                        </div>
                         
                     </div>
                 </div>
@@ -200,14 +186,5 @@ const webcamMessage = {
     fontFamily: 'Finger Paint, cursive',
     marginTop: '100px'
 }
-// const loader = {
-//     border: '16px solid #f3f3f3',
-//     borderRadius: '50%',
-//     borderTop: '16px solid #3498db',
-//     width: '120px',
-//     margin: '0 auto',
-//     height: '120px',
-//     animation: 'spin 2s linear infinite'
-// }
 
 export default HomePage

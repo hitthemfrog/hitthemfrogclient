@@ -60,6 +60,10 @@ export class Room extends Component {
            */
         }
       })
+    } else {
+      var x = document.getElementById("toast")
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
     }
   }
 
@@ -103,6 +107,7 @@ export class Room extends Component {
                       type="text"
                     />
                     <br/>
+                   
                     <select style={styleSelect} name="selectGameType" value={this.state.selectGameType} onChange={this.onChange}>
                       <option value='CLASSIC'>CLASSIC</option>
                       <option value='RANDOM'>RANDOM</option>
