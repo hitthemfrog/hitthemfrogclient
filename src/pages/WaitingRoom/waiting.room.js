@@ -25,6 +25,7 @@ const mapStateToProps = state => {
   }
 }
 
+let countdownStarted = false
 export default connect(mapStateToProps)(
   class extends React.Component {
     state = {
@@ -40,10 +41,10 @@ export default connect(mapStateToProps)(
       let playerName = localStorage.getItem('htf_username')
       let room = this.props.rooms.find(e => e.name === roomName)
       if (room && !this.state.playersFound && room.players.length === 2) {
-        this.setState({playersFound: true}, async () => {
+        this.setState({ playersFound: true }, async () => {
           this.loadAssets().fetch()
           let enemy = room.players.filter(e => e.name !== playerName)[0]
-          this.setState({enemy})
+          this.setState({ enemy })
         })
       }
     }
@@ -52,7 +53,7 @@ export default connect(mapStateToProps)(
       let roomName = localStorage.getItem('htf_roomname')
       let playerName = localStorage.getItem('htf_username')
       let self = this
-      let isBeingFetched = false 
+      let isBeingFetched = false
       return {
         fetch: async function () {
           if (isBeingFetched) return
@@ -61,7 +62,7 @@ export default connect(mapStateToProps)(
           for (let i = 0; i < players.length; i++) {
             await assetLoader(players[i])
           }
-          self.props.socket.emit('playerReady', { playerName, roomName }) 
+          self.props.socket.emit('playerReady', { playerName, roomName })
           self.setState({ assetLoaded: true })
         }
       }
@@ -73,14 +74,15 @@ export default connect(mapStateToProps)(
       let playerName = localStorage.getItem('htf_username')
       this.props.socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: 0, miss: 0 })
       this.checkPlayers()
-      
+      this.checkStartGame() 
     }
 
-    checkStartGame () {
+    checkStartGame() {
       let roomName = localStorage.getItem('htf_roomname')
       let room = this.props.rooms.find(e => e.name === roomName)
+      console.log('game condition', this.state.assetLoaded && room && room.gameStatus === 'STARTED', { loaded: this.state.assetLoaded, room})
       if (this.state.assetLoaded && room && room.gameStatus === 'STARTED') {
-        this.countdown().start()
+        this.countdown()
       }
     }
 
@@ -89,28 +91,25 @@ export default connect(mapStateToProps)(
       this.checkStartGame()
     }
 
+    componentWillUnmount () {
+      countdownStarted = false 
+    }
 
     countdown() {
-      let isStarted = false
-      let self = this
-      return {
-        start() {
-          if (isStarted) return
-          isStarted = true
-          let interval = setInterval(() => {
-            if (self.state.counter === 0) {
-              clearInterval(interval)
-              console.log('ke room mas')
-              self.props.history.push('/game')
-              return
-            }
-            self.setState({
-              countdownStart: true,
-              counter: self.state.counter - 1
-            })
-          }, 1000)
+      if (countdownStarted) return
+      countdownStarted = true
+      let interval = setInterval(() => {
+        if (this.state.counter === 0) {
+          clearInterval(interval)
+          console.log('ke room mas')
+          this.props.history.push('/game')
+          return
         }
-      }
+        this.setState({
+          countdownStart: true,
+          counter: this.state.counter - 1
+        })
+      }, 1000)
     }
 
 
@@ -139,7 +138,7 @@ export default connect(mapStateToProps)(
                     )
                   }
                   {
-                    this.state.counter > 0 && 
+                    this.state.counter > 0 &&
                     (
                       <div>
                         <h1 style={countdownStyle}>{this.state.counter}</h1>
@@ -161,9 +160,9 @@ export default connect(mapStateToProps)(
                         <h4>Your Enemy: {this.state.enemy.name}</h4>
                         <img alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} />
                       </div>
-                      ) : (
+                    ) : (
                         <span style={waitingStyle}>Waiting another player...</span>
-                    )
+                      )
                   }
                 </div>
               }
