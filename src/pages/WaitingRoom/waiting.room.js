@@ -26,6 +26,7 @@ const mapStateToProps = state => {
 }
 
 let countdownStarted = false
+let isBeingFetched = false
 export default connect(mapStateToProps)(
   class extends React.Component {
     state = {
@@ -42,34 +43,29 @@ export default connect(mapStateToProps)(
       let room = this.props.rooms.find(e => e.name === roomName)
       if (room && !this.state.playersFound && room.players.length === 2) {
         this.setState({ playersFound: true }, async () => {
-          this.loadAssets().fetch()
+          await this.loadAssets()
           let enemy = room.players.filter(e => e.name !== playerName)[0]
           this.setState({ enemy })
         })
       }
     }
 
-    loadAssets() {
+    async loadAssets() {
       let roomName = localStorage.getItem('htf_roomname')
       let playerName = localStorage.getItem('htf_username')
       let self = this
-      let isBeingFetched = false
-      return {
-        fetch: async function () {
-          if (isBeingFetched) return
-
-          const players = getPlayersTextureUrl()
-          for (let i = 0; i < players.length; i++) {
-            await assetLoader(players[i])
-          }
-          self.props.socket.emit('playerReady', { playerName, roomName })
-          self.setState({ assetLoaded: true })
+      if (!isBeingFetched) {
+        const players = getPlayersTextureUrl()
+        for (let i = 0; i < players.length; i++) {
+          await assetLoader(players[i])
         }
+        self.props.socket.emit('playerReady', { playerName, roomName })
+        self.setState({ assetLoaded: true })
       }
+      return true
     }
 
     componentDidMount() {
-      this.loadAssets()
       let roomName = localStorage.getItem('htf_roomname')
       let playerName = localStorage.getItem('htf_username')
       this.props.socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: 0, miss: 0 })
@@ -92,6 +88,7 @@ export default connect(mapStateToProps)(
 
     componentWillUnmount () {
       countdownStarted = false 
+      isBeingFetched = false
     }
 
     countdown() {
@@ -100,7 +97,6 @@ export default connect(mapStateToProps)(
       let interval = setInterval(() => {
         if (this.state.counter === 0) {
           clearInterval(interval)
-          console.log('ke room mas')
           this.props.history.push('/game')
           return
         }
