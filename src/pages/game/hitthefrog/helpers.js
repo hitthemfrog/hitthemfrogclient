@@ -32,10 +32,6 @@ export function removeObjectOnIntersect(scene, intersects) {
   })
 }
 
-export function defaultPaint() {
-  
-}
-
 export function paintObjectOnIntersect(scene, intersects) {
   if (intersects.length === 0) scene.children.forEach(obj => {
     if (obj.type === 'Scene') obj.children.forEach(objChild => objChild.material.color.set(0xffffff))
