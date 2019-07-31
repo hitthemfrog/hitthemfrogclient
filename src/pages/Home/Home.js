@@ -13,11 +13,11 @@ import { ClipLoader } from 'react-spinners';
 
 import './Home.css';
 
-// const override = css`
-//     display: block;
-//     margin: 0 auto;
-//     border-color: gray;
-// `;
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: gray;
+`;
 
 export class HomePage extends Component {
     state = {
