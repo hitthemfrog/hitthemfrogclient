@@ -45,6 +45,8 @@ export class RoomList extends Component {
                       }}
                       className="menu__link"
                       data-hover="Go">Join</button>
+                      <br/>
+                      <span className='gameLevelTypeStyle'>{this.props.data.gameType}, {this.props.data.gameLevel}</span>
                       </>
                     }
                     {

@@ -55,7 +55,7 @@ export function getSpeedLevel() {
   switch (speedLevel) {
     case 'EASY': speedLevel = 5000; break;
     case 'NORMAL': speedLevel = 3000; break;
-    case 'HARD': speedLevel = 1000; break;
+    case 'HARD': speedLevel = 1500; break;
 
     default: speedLevel = 3000
   }

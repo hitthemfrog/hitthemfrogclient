@@ -102,15 +102,18 @@ export class Room extends Component {
                       onChange={this.onChange}
                       type="text"
                     />
+                    <br/>
                     <select style={styleSelect} name="selectGameType" value={this.state.selectGameType} onChange={this.onChange}>
                       <option value='CLASSIC'>CLASSIC</option>
                       <option value='RANDOM'>RANDOM</option>
                     </select>
+                    <br/>
                     <select style={styleSelect} name="selectGameLevel" value={this.state.selectGameLevel} onChange={this.onChange}>
                       <option value='EASY'>EASY</option>
                       <option value='NORMAL'>NORMAL</option>
                       <option value='HARD'>HARD</option>
                     </select>
+                    <br/>
                     <button onClick={this.cobaBikinRoom} className="btnnya-main linkStyle" id="new-game-button">Create Room</button>
                     <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please fill a room name..</div></div>
                   </form>
@@ -173,8 +176,8 @@ const styleInput = {
 
 const styleSelect = {
   ...styleInput,
-  marginRight: '20px',
-  display: 'block'
+  marginTop: '5px',
+  display: 'inline-block'
 }
 
 const mapStateToProps = (state) => {
