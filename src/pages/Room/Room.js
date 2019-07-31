@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
-// import IconUser from '../../image/htflogo.jpg'
-
 import RoomCard from './RoomCard'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import soundfile from '../../sound/sountrack.mp3'
-import IconRoom from '../../image/man.png'
 
 export class Room extends Component {
   constructor(props) {
