@@ -1,6 +1,5 @@
 import React from 'react';
 import Webcam from 'react-webcam';
-// import axios from 'axios';
 
 class WebCamCapture extends React.Component {
   setRef = webcam => {
