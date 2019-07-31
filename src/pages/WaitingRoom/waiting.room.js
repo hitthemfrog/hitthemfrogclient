@@ -80,7 +80,6 @@ export default connect(mapStateToProps)(
     checkStartGame() {
       let roomName = localStorage.getItem('htf_roomname')
       let room = this.props.rooms.find(e => e.name === roomName)
-      console.log('game condition', this.state.assetLoaded && room && room.gameStatus === 'STARTED', { loaded: this.state.assetLoaded, room})
       if (this.state.assetLoaded && room && room.gameStatus === 'STARTED') {
         this.countdown()
       }
