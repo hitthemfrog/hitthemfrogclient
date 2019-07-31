@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import soundfile from '../../sound/sountrack.mp3'
 import WebCamCapture from '../../component/Webcam'
 import axios from 'axios'
@@ -124,7 +123,7 @@ export class HomePage extends Component {
                         </div>
                         <div>
                             {   
-                            this.state.webcamIsActive == false
+                            (this.state.webcamIsActive === false)
                             ? <h4 style={webcamMessage}>Turn on your webcam first</h4>
                             :<WebCamCapture ref={ref => this.webcam = ref }/>
                             }
@@ -132,7 +131,7 @@ export class HomePage extends Component {
                         
                         <div >
                             {   
-                            this.state.webcamIsActive == true
+                            (this.state.webcamIsActive === true)
                             ? <form onSubmit={this.validateUserName}>
                             <input
                                 style={styleInput}
