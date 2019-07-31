@@ -41,22 +41,30 @@ export default connect(mapStateToProps)(
       let room = this.props.rooms.find(e => e.name === roomName)
       if (room && !this.state.playersFound && room.players.length === 2) {
         this.setState({playersFound: true}, async () => {
-          const players = getPlayersTextureUrl()
-          for (let i = 0; i < players.length; i++) {
-            await assetLoader(players[i])
-          }
-          this.setState({ assetLoaded: true })
-          if (this.state.counter === 4 && this.state.assetLoaded) {
-            this.props.socket.emit('playerReady', { playerName, roomName }) 
-            let enemy = room.players.filter(e => e.name !== playerName)[0]
-            this.setState({enemy})
-          }
+          this.loadAssets().fetch()
+          let enemy = room.players.filter(e => e.name !== playerName)[0]
+          this.setState({enemy})
         })
       }
     }
 
-    async loadAssets() {
-      await assetLoader()
+    loadAssets() {
+      let roomName = localStorage.getItem('htf_roomname')
+      let playerName = localStorage.getItem('htf_username')
+      let self = this
+      let isBeingFetched = false 
+      return {
+        fetch: async function () {
+          if (isBeingFetched) return
+
+          const players = getPlayersTextureUrl()
+          for (let i = 0; i < players.length; i++) {
+            await assetLoader(players[i])
+          }
+          self.props.socket.emit('playerReady', { playerName, roomName }) 
+          self.setState({ assetLoaded: true })
+        }
+      }
     }
 
     componentDidMount() {
@@ -146,7 +154,17 @@ export default connect(mapStateToProps)(
                 !this.state.countdownStart &&
                 <div className='col s12 m12 l12'>
                   <LoadingBlock />
-                  <span style={waitingStyle}>Waiting another player...</span>
+                  {
+                    this.state.enemy.name ? (
+                      <div>
+                        <span style={waitingStyle}>Loading Assets</span>
+                        <h4>Your Enemy: {this.state.enemy.name}</h4>
+                        <img alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} />
+                      </div>
+                      ) : (
+                        <span style={waitingStyle}>Waiting another player...</span>
+                    )
+                  }
                 </div>
               }
             </div>
