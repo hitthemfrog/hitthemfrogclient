@@ -7,10 +7,10 @@ import initHud from './hitthefrog/hud'
 import crazyFrogSound from '../../sound/gameSound.mp3'
 
 class Game extends Component {
-  async componentDidMount() {
+  componentDidMount() {
     let setup = sceneSetup(this.gameThree)
     let { sceneHUD, setScoreHUD, cameraHUD } = initHud(this.gameThree)
-    let models = await initModels(setup.scene)
+    let models = initModels(setup.scene)
     let clickedObjUUidArray = []
     mouseClickListener(setup.camera, setup.scene, this.props.socket, models)
     mouseMoveListener(setup.camera, setup.scene, clickedObjUUidArray)
