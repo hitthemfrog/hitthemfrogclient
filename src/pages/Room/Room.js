@@ -92,33 +92,35 @@ export class Room extends Component {
             </div>
             <div id="style-15" className="roomBox scrollbar force-overflow">
               <div className='row'>
-                <div className='col s12 m6 l6'>
+                <div className='col s12 m4 l4'>
                   <img src={IconUser} alt="logo" />
                 </div>
-                <div className='col s12 m6 l6'>
+                <div className='col s12 m4 l4'>
                   <span className='playerNameStyle'>Welcome, {this.state.playerName}</span>
+                </div>
+                <div className='col s12 m4 l4'>
                   <form onSubmit={this.cobaBikinRoom}>
-                    <input
-                      style={styleInput}
-                      name='inputRoomName'
-                      value={this.state.inputRoomName}
-                      placeholder=" Type here..."
-                      onChange={this.onChange}
-                      type="text"
-                    />
-                    <br/>
-                   
                     <select style={styleSelect} name="selectGameType" value={this.state.selectGameType} onChange={this.onChange}>
                       <option value='CLASSIC'>CLASSIC</option>
                       <option value='RANDOM'>RANDOM</option>
                     </select>
-                    <br/>
+                    {/* <br/> */}
                     <select style={styleSelect} name="selectGameLevel" value={this.state.selectGameLevel} onChange={this.onChange}>
                       <option value='EASY'>EASY</option>
                       <option value='NORMAL'>NORMAL</option>
                       <option value='HARD'>HARD</option>
                     </select>
                     <br/>
+                    <input
+                      style={styleInput}
+                      name='inputRoomName'
+                      value={this.state.inputRoomName}
+                      placeholder="Room Name..."
+                      onChange={this.onChange}
+                      type="text"
+                    />
+                    <br/>
+                   
                     <button onClick={this.cobaBikinRoom} className="btnnya-main linkStyle" id="new-game-button">Create Room</button>
                     <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please fill a room name..</div></div>
                   </form>
@@ -159,22 +161,27 @@ export class Room extends Component {
 const styleInput = {
   width: 250,
   // marginTop: 290,
-  padding: '5px',
+  // padding: '5px',
+  paddingLeft: '10px',
   fontSize: '20px',
   marginRight: '10px',
+  backgroundColor: '#ffffff',
   borderWidth: '2px',
   borderColor: 'green',
-  backgroundColor: '#ffffff',
   color: '#434343',
   borderStyle: 'dashed',
   borderRadius: '15px',
   boxShadow: '1px 0px 5px rgba(16,16,66,0.75)',
-  textShadow: '1px 1px 1px rgba(105, 53, 53, 0.75)'
+  textShadow: '1px 1px 1px rgba(105, 53, 53, 0.75)',
+  fontFamily: 'Finger Paint, cursive',
 }
 
 const styleSelect = {
   ...styleInput,
+  width: '150px',
+  fontFamily: 'Finger Paint, cursive',
   marginTop: '5px',
+  marginBottom: '10px',
   display: 'inline-block'
 }
 

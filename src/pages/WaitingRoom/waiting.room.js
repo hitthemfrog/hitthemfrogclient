@@ -18,6 +18,19 @@ const waitingStyle = {
   fontSize: '28px'
 }
 
+const imageStyle = {
+    marginTop: '20px',
+    width: '300px',
+    height: '100%',
+    borderWidth: '4px',
+    borderColor: 'white',
+    // color: '#434343',
+    borderStyle: 'dashed',
+    borderRadius: '15px',
+    // boxShadow: '1px 0px 5px rgba(16,16,66,0.75)',
+    // textShadow: '1px 1px 1px rgba(105, 53, 53, 0.75)',
+  
+}
 
 const mapStateToProps = state => {
   return {
@@ -34,7 +47,8 @@ export default connect(mapStateToProps)(
       playersFound: false,
       countdownStart: false,
       assetLoaded: false,
-      enemy: {}
+      enemy: {},
+      playerOne: {}
     }
 
     async checkPlayers() {
@@ -45,7 +59,8 @@ export default connect(mapStateToProps)(
         this.setState({ playersFound: true }, async () => {
           await this.loadAssets()
           let enemy = room.players.filter(e => e.name !== playerName)[0]
-          this.setState({ enemy })
+          let playerOne = room.players.filter(e => e.name === playerName)[0]
+          this.setState({ enemy, playerOne })
         })
       }
     }
@@ -118,17 +133,32 @@ export default connect(mapStateToProps)(
             <div className='row'>
               {
                 this.state.countdownStart &&
-                <div className='col s12 m12 l12'>
+                <>
+                <div className='col s12 m4 l4'>
+                {
+                  this.state.playerOne.name && (
+                    <div>
+                      {/* {JSON.stringify(this.state)} */}
+                      <h4 style={waitingStyle}>Your Frog: {this.state.playerOne.name}</h4>
+                      <img style={imageStyle} alt={this.state.playerOne.name} src={`${HOST}/userimg/${this.state.playerOne.name}.png`} />
+                    </div>
+                  )
+                }
+
                   <div>
                     <audio src={SoundCountdown} autoPlay />
                   </div>
+                </div>
+
+                <div className='col s12 m4 l4'>
                   {
                     this.state.counter === 0 &&
                     (
                       <div>
                         <h1 style={countdownStyle}>Go</h1>
-                        <h4>Your Enemy: {this.state.enemy.name}</h4>
-                        <img alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} />
+                        
+                        {/* <h4>Your Enemy: {this.state.enemy.name}</h4> */}
+                        {/* <img alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} /> */}
                       </div>
                     )
                   }
@@ -137,29 +167,62 @@ export default connect(mapStateToProps)(
                     (
                       <div>
                         <h1 style={countdownStyle}>{this.state.counter}</h1>
-                        <h4>Your Enemy: {this.state.enemy.name}</h4>
-                        <img alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} />
+                        {/* <h3 style={countdownStyle}>vs</h3> */}
+                        {/* <h4>Your Enemy: {this.state.enemy.name}</h4>
+                        <img alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} /> */}
                       </div>
                     )
                   }
                 </div>
+
+                <div className='col s12 m4 l4'>
+                {
+                    this.state.enemy.name &&
+                    (
+                      <div>
+                        <h4 style={waitingStyle}>Your Enemy: {this.state.enemy.name}</h4>
+                        <img style={imageStyle} alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} />
+                      </div>
+                    )
+                  }
+
+                </div>
+
+                </>
               }
               {
                 !this.state.countdownStart &&
-                <div className='col s12 m12 l12'>
+                <>
+                <div className='col s12 m4 l4'>
+                {
+                  this.state.playerOne.name && (
+                    <div>
+                      {/* {JSON.stringify(this.state)} */}
+                      <span style={waitingStyle}>Loading Assets</span>
+                      <h4 style={waitingStyle}>Your Enemy: {this.state.playerOne.name}</h4>
+                      <img style={imageStyle} alt={this.state.playerOne.name} src={`${HOST}/userimg/${this.state.playerOne.name}.png`} />
+                    </div>
+                  )
+                }
+                </div>
+                <div className='col s12 m4 l4'>
+                  
                   <LoadingBlock />
+                  <span style={waitingStyle}>Waiting another player...</span>
+                </div>
+                <div className='col s12 m4 l4'>
                   {
-                    this.state.enemy.name ? (
+                    this.state.enemy.name && (
                       <div>
+                        {/* {JSON.stringify(this.state)} */}
                         <span style={waitingStyle}>Loading Assets</span>
-                        <h4>Your Enemy: {this.state.enemy.name}</h4>
-                        <img alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} />
+                        <h4 style={waitingStyle}>Your Enemy: {this.state.enemy.name}</h4>
+                        <img style={imageStyle} alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} />
                       </div>
-                    ) : (
-                        <span style={waitingStyle}>Waiting another player...</span>
-                      )
+                    )
                   }
                 </div>
+                </>
               }
             </div>
           </div>

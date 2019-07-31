@@ -43,7 +43,7 @@ export class RoomList extends Component {
                         })
                       }}
                       className="menu__link"
-                      data-hover="Go">Join</button>
+                      data-hover="Go">JOIN</button>
                       <br/>
                       <span className='gameLevelTypeStyle'>{this.props.data.gameType}, {this.props.data.gameLevel}</span>
                       </>
@@ -73,6 +73,7 @@ const panelStyle={
 
 const roomNameStyle = {
   // marginTop: '-100px',
+  marginTop:'5px',
   verticalAlign:'middle'
 }
 

@@ -1,7 +1,8 @@
 .playerNameStyle {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 32px;
-    /* float: left; */
+  /* margin-top: 20px; */
+  font-family: 'Press Start 2P', cursive;
+  font-size: 38px;
+  /* float: left; */
 }
 
 .roomPanel{
@@ -21,32 +22,33 @@
 /* Centered text */
 .centered {
     position: absolute;
-    top: 30%;
+    top: 37%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
 
 
+
 .menu__link {
-cursor: pointer;
-display: inline-block;
-text-decoration: none;
-border: 2px solid #263238;
-color: #263238; 
-pointer-events: auto;
-line-height: 40px; 
-position: relative;
-padding: 0 40px; 
-box-sizing: border-box;
-margin: 0;
-user-select: none;
-overflow: hidden;
-border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  border: 2px solid #263238;
+  color: #263238; 
+  pointer-events: auto;
+  line-height: 20px; 
+  position: relative;
+  padding: 0 80px; 
+  box-sizing: border-box;
+  margin: 0;
+  user-select: none;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
 .menu__link::before {
   content: attr(data-hover);
-  background-color: #263238; 
+  background-color: #434343; 
   color: #FFF;
   position: absolute;
   top: 100%;
