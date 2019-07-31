@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import LoadingBlock from '../../component/LoadingBlock'
-import soundfile from '../../sound/sountrack.mp3'
+import soundfile from '../../sound/sountrack_mini.mp3'
 import SoundCountdown from '../../sound/Game-start-countdown.mp3'
 import assetLoader from '../game/hitthefrog/assetLoader'
 import { getPlayersTextureUrl } from '../game/hitthefrog/helpers'

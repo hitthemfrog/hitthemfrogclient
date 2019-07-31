@@ -8,7 +8,7 @@ import socketListener from './socket.listener'
 import SOCKET_IO_HOST from './host'
 
 import RoomPage from './pages/Room/Room'
-import RoomPageDetail from './pages/Room/RoomDetail'
+// import RoomPageDetail from './pages/Room/RoomDetail'
 import HomePage from './pages/Home/Home'
 import WaitingRoom from './pages/WaitingRoom/waiting.room' 
 import Game from './pages/game/game'
@@ -31,7 +31,7 @@ function App() {
             <Route exact path='/room' render={renderWithSocket(RoomPage)} />} />            
             <Route exact path='/waitingRoom' render={renderWithSocket(WaitingRoom)} />            
             <Route exact path='/game' render={renderWithSocket(Game)} />
-            <Route exact path='/room/:roomname' render={renderWithSocket(RoomPageDetail)} />  
+            {/* <Route exact path='/room/:roomname' render={renderWithSocket(RoomPageDetail)} />   */}
             <Route exact path='/gameOver' render={renderWithSocket(GameOverScreen)} />  
           </Switch>
         </Router>
