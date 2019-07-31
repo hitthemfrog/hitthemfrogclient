@@ -30,6 +30,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     if (isGameFinished.winner) {
       history.push('/gameOver')
       isGameOver = true
+      return
     }
 
     

@@ -19,15 +19,16 @@ const mapDispatchToProps = dispatch => {
 
 function Gameover (props) {
   console.log(props, " ini props")
-
+  const {socket, clearGame} = props
+  
   useEffect(() => {
-    props.socket.emit('leaveRoom', localStorage.getItem('htf_roomname') );
+    socket.emit('leaveRoom', localStorage.getItem('htf_roomname') );
     localStorage.removeItem('htf_roomname');
     
     return () => {
-      props.clearGame()
+      clearGame()
     }
-  }, [])
+  }, [clearGame, socket])
   
   if (props.isGameFinished.score === undefined) {
     props.history.push('/room')

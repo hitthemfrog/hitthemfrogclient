@@ -53,7 +53,7 @@ export class RoomList extends Component {
                       (this.props.data.gameStatus === 'STARTED')
                       &&
                       <>
-                      <span class="menu__link" data-hover="Sorry">Playing</span>
+                      <span className="menu__link" data-hover="Sorry">Playing</span>
                       </>
                     }
                 </div>

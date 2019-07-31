@@ -8,6 +8,8 @@ import gameSoundMini from '../../sound/gameSoundMini.mp3'
 import store from '../../store/store'
 // import { Redirect } from 'react-router-dom'
 
+let listenermousemove = null
+let listenermouseclick = null
 class Game extends Component {
 
   checkRoom() {
@@ -33,14 +35,15 @@ class Game extends Component {
       let { sceneHUD, setScoreHUD, cameraHUD } = initHud(this.gameThree)
       let models = await initModels(setup.scene)
       let clickedObjUUidArray = []
-      mouseClickListener(setup.camera, setup.scene, this.props.socket, models)
-      mouseMoveListener(setup.camera, setup.scene, clickedObjUUidArray)
+      listenermouseclick = mouseClickListener(setup.camera, setup.scene, this.props.socket, models)
+      listenermousemove = mouseMoveListener(setup.camera, setup.scene, clickedObjUUidArray)
       loop(setup.scene, setup.renderer, setup.camera, sceneHUD, cameraHUD, setScoreHUD, this.props.socket, this.props.history)
     }
   }
 
   componentWillUnmount() {
-    localStorage.removeItem('htf_roomname')
+    window.removeEventListener('mousedown', listenermouseclick)
+    window.removeEventListener('mousemove', listenermousemove)
   }
 
   render() {
