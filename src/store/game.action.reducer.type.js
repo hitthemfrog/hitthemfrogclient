@@ -5,6 +5,7 @@ export const ACTTYPE = {
   ADD_HIT_SCORE: 'ADD_HIT_SCORE',
   ADD_MISS_SCORE: 'ADD_MISS_SCORE',
   IS_CLICKED: 'IS_CLICKED',
+  CLEAR_GAME: 'CLEAR_GAME',
 
   SOCKET_UPDATE_ROOM: 'SOCKET_UPDATE_ROOM',
   SOCKET_UPDATE_PLAYER_SCORE: 'SOCKET_UPDATE_PLAYER_SCORE',
@@ -69,6 +70,13 @@ export function reducer (state = defaultState, action) {
       state.isGameFinished = action.payload.isGameFinished
       return {...state}
     }
+    case ACTTYPE.CLEAR_GAME: {
+      state.isGameFinished = {}
+      state.playerScores = []
+      state.hitScore = 0
+      state.missScore = 0
+      return {...state}
+    }
 
     default:
       return state
@@ -76,6 +84,11 @@ export function reducer (state = defaultState, action) {
 }
 
 export const actions = {
+  clearGame() {
+    return {
+      type: ACTTYPE.CLEAR_GAME
+    }
+  },
   setClickedIntersections(intersections) {
     return {
       type: ACTTYPE.SET_ONCLICK_INTERSECTIONS,

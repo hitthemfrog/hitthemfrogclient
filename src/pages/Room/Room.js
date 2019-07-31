@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
-// import IconUser from '../../image/htflogo.jpg'
-
 import RoomCard from './RoomCard'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import soundfile from '../../sound/sountrack.mp3'
-import IconRoom from '../../image/man.png'
+import soundfile from '../../sound/sountrack_mini.mp3'
+import frogSound from '../../sound/frogsoundeffect.mp3'
 
 export class Room extends Component {
   constructor(props) {
@@ -41,6 +39,9 @@ export class Room extends Component {
 
   cobaBikinRoom = (e) => {
     e.preventDefault();
+    let audioButton = new Audio();
+    audioButton.src = frogSound
+    audioButton.play()
     let roomName = this.state.inputRoomName
     localStorage.setItem('htf_roomname', roomName)
     if (this.state.inputRoomName !== '') {
@@ -66,7 +67,7 @@ export class Room extends Component {
       <>
         {
             <div>
-                <audio src={soundfile} autoPlay/>
+                <audio src={soundfile} autoPlay loop/>
                 <button onClick={() => this.userLogout()} className=" red darken-3 waves-effect waves-light btn large right"><i className="material-icons right">exit_to_app</i>Exit</button>
             </div>
         }
@@ -75,9 +76,6 @@ export class Room extends Component {
           &&
           <>
             <div className="force-overflow">
-              {/* <Loading></Loading> */}
-              {/* <button onClick={() => this.cobaBikinRoom()}>TES CREATE ROOM</button> */}
-              {/* <button onClick={() => this.joinRoom()}>TES JOIN ROOM</button> */}
             </div>
             <div id="style-15" className="roomBox scrollbar force-overflow">
               <div className='row'>
@@ -120,10 +118,7 @@ export class Room extends Component {
                           key={i} />
                       ))
                 }
-                {/* </>
-                            }                         */}
-              </div>
-              
+              </div>              
             </div>
           </>
         }

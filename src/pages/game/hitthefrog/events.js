@@ -3,7 +3,7 @@ import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
 import incorrectSound from '../../../sound/frogsoundeffect.mp3'
 import coinSound from '../../../sound/mario-coin-sound.mp3'
-import { removeObjectOnIntersect } from './helpers'
+// import { removeObjectOnIntersect } from './helpers'
 
 
 export function mouseMoveListener(camera, scene) {
