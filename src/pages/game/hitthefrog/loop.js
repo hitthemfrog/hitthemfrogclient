@@ -1,6 +1,6 @@
 import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
-import { paintObjectOnIntersect, removeAllObjects } from './helpers'
+import { paintObjectOnIntersect, removeAllObjects, getSpeedLevel } from './helpers'
 import initModels from './init.models'
 
 export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreHud, socket, history) {
@@ -18,6 +18,9 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
   let number =6
   let isGameOver = false
 
+  let speedLevel = getSpeedLevel()
+
+  console.log('LEVEL', speedLevel)
   function loop (currentTime) {
     let state = store.getState()
     let { intersects, frogs, playerScores, isGameFinished } = state
@@ -45,7 +48,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
     setScoreHud(playerScores[0], playerScores[1], number)
 
-    if (delta >= 3000) {
+    if (delta >= speedLevel) {
       store.dispatch(actions.setClickedIntersections([]))
       number -=1
       removeAllObjects(scene)
