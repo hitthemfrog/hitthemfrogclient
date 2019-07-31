@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 export default function (el, socket) {
   let scene = new THREE.Scene();
-  let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 4)
+  let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 3)
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
   let renderer = new THREE.WebGLRenderer({ alpha: true })
   renderer.autoClear =false
