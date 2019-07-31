@@ -176,8 +176,13 @@ const styleInput = {
 
 const styleSelect = {
   ...styleInput,
+<<<<<<< HEAD
   marginTop: '5px',
   display: 'inline-block'
+=======
+  marginRight: '20px',
+  display: 'block'
+>>>>>>> 39f779e29c18f1826c5da8445d50171066cfcc16
 }
 
 const mapStateToProps = (state) => {

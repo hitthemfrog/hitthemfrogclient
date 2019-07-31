@@ -23,6 +23,9 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
   // if (speedLevel === 1000) yDirection = 0.115
 
+  let speedLevel = getSpeedLevel()
+
+  console.log('LEVEL', speedLevel)
   function loop (currentTime) {
     let state = store.getState()
     let { intersects, frogs, playerScores, isGameFinished } = state
