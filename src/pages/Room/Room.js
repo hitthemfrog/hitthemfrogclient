@@ -4,6 +4,7 @@ import RoomCard from './RoomCard'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import soundfile from '../../sound/sountrack_mini.mp3'
+import frogSound from '../../sound/frogsoundeffect.mp3'
 
 export class Room extends Component {
   constructor(props) {
@@ -38,6 +39,9 @@ export class Room extends Component {
 
   cobaBikinRoom = (e) => {
     e.preventDefault();
+    let audioButton = new Audio();
+    audioButton.src = frogSound
+    audioButton.play()
     let roomName = this.state.inputRoomName
     localStorage.setItem('htf_roomname', roomName)
     if (this.state.inputRoomName !== '') {

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 // import { Link } from 'react-router-dom'
 import { actions } from '../../store/game.action.reducer.type'
+import frogSound from '../../sound/frogsoundeffect.mp3'
 
 const mapStateToProps = state => {
   return {
@@ -60,6 +61,9 @@ function Gameover (props) {
         <h3 className="playerNameStyle">Score: { props.isGameFinished.score[username] }</h3>
 
         <button id="new-game-button" className="btnnya-main linkStyle" onClick={ () => {
+          let audioButton = new Audio();
+          audioButton.src = frogSound
+          audioButton.play()
           props.history.push('/room');
         }}>AYO MAIN LAGI</button>
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import soundfile from '../../sound/sountrack_mini.mp3'
+import frogSound from '../../sound/frogsoundeffect.mp3'
 import LoadingBlock from '../../component/Loading2'
 import WebCamCapture from '../../component/Webcam'
 import axios from 'axios'
@@ -30,6 +31,9 @@ export class HomePage extends Component {
 
     validateUserName = async (e) => {
         e.preventDefault();
+        let audioButton = new Audio();
+        audioButton.src = frogSound
+        audioButton.play()
         console.log('validateUserName', this.state.inputUserName)
         if (this.state.inputUserName === undefined || this.state.inputUserName === '' ){
             console.log('nama blum diisi mas')
@@ -44,10 +48,11 @@ export class HomePage extends Component {
                 })
                 localStorage.setItem('htf_username', this.state.inputUserName)
                 this.props.history.push('/room')
+                
             } catch (err) {
                 this.launch_toast('Username already exist')
                 // alert('username udah ada')
-                console.log('go to room list')
+                // console.log('go to room list')
                 console.log(this.state.inputUserName)
             }
         }
@@ -130,8 +135,12 @@ export class HomePage extends Component {
                         </div>
                         <div>
                             {   
-                            this.state.webcamIsActive == false
-                            ? <h4 style={webcamMessage}>Turn on your webcam first</h4>
+                            this.state.webcamIsActive === false
+                            ?
+                            <>
+                            <LoadingBlock /> 
+                            <h4 style={webcamMessage}>Turn on your webcam first</h4>
+                            </>
                             :<WebCamCapture ref={ref => this.webcam = ref }/>
                             }
                         </div>
@@ -205,14 +214,14 @@ const webcamMessage = {
     fontFamily: 'Finger Paint, cursive',
     marginTop: '100px'
 }
-const loader = {
-    border: '16px solid #f3f3f3',
-    borderRadius: '50%',
-    borderTop: '16px solid #3498db',
-    width: '120px',
-    margin: '0 auto',
-    height: '120px',
-    animation: 'spin 2s linear infinite'
-}
+// const loader = {
+//     border: '16px solid #f3f3f3',
+//     borderRadius: '50%',
+//     borderTop: '16px solid #3498db',
+//     width: '120px',
+//     margin: '0 auto',
+//     height: '120px',
+//     animation: 'spin 2s linear infinite'
+// }
 
 export default HomePage
