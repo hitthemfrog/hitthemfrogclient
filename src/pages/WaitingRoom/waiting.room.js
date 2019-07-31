@@ -1,10 +1,11 @@
 import React from 'react'
-import Loading from '../../component/Loading'
 import { connect } from 'react-redux'
-import Loading2 from '../../component/Loading2'
 import LoadingBlock from '../../component/LoadingBlock'
 import soundfile from '../../sound/sountrack.mp3'
 import SoundCountdown from '../../sound/Game-start-countdown.mp3'
+import assetLoader from '../game/hitthefrog/assetLoader'
+import { getPlayersTextureUrl } from '../game/hitthefrog/helpers'
+import HOST from '../../host'
 
 const countdownStyle = {
   fontFamily: 'Saira Stencil One, cursive',
@@ -28,84 +29,130 @@ export default connect(mapStateToProps)(
   class extends React.Component {
     state = {
       counter: 4,
-      countdownStart : false
+      playersFound: false,
+      countdownStart: false,
+      assetLoaded: false,
+      enemy: {}
     }
-    
-    checkPlayers() {
-      let roomname = localStorage.getItem('htf_roomname')
-      let room = this.props.rooms.find(e => e.name === roomname)
-      if (room && room.players.length === 2) {
-        if (this.state.counter === 4){
-          this.countdown()
-        }
+
+    async checkPlayers() {
+      let roomName = localStorage.getItem('htf_roomname')
+      let playerName = localStorage.getItem('htf_username')
+      let room = this.props.rooms.find(e => e.name === roomName)
+      if (room && !this.state.playersFound && room.players.length === 2) {
+        this.setState({playersFound: true}, async () => {
+          const players = getPlayersTextureUrl()
+          for (let i = 0; i < players.length; i++) {
+            await assetLoader(players[i])
+          }
+          this.setState({ assetLoaded: true })
+          if (this.state.counter === 4 && this.state.assetLoaded) {
+            this.props.socket.emit('playerReady', { playerName, roomName }) 
+            let enemy = room.players.filter(e => e.name !== playerName)[0]
+            this.setState({enemy})
+          }
+        })
       }
     }
-    
+
+    async loadAssets() {
+      await assetLoader()
+    }
+
     componentDidMount() {
+      this.loadAssets()
       let roomName = localStorage.getItem('htf_roomname')
       let playerName = localStorage.getItem('htf_username')
       this.props.socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: 0, miss: 0 })
       this.checkPlayers()
-    }
-    
-    componentDidUpdate() {
-      let roomName = localStorage.getItem('htf_roomname')
-      this.checkPlayers()  
       
     }
 
-  
-  countdown() {
-    let interval = setInterval(() => {
-      if(this.state.counter === 0){
-          clearInterval(interval)
-          console.log('ke room mas')
-          this.props.history.push('/game')
-          return 
-      } 
-      this.setState({
-        countdownStart: true,
-        counter: this.state.counter - 1
-      })
-    }, 1000)
-  }
+    checkStartGame () {
+      let roomName = localStorage.getItem('htf_roomname')
+      let room = this.props.rooms.find(e => e.name === roomName)
+      if (this.state.assetLoaded && room && room.gameStatus === 'STARTED') {
+        this.countdown().start()
+      }
+    }
 
-  
-  render () {
-    return (
-      <>
-        <div>
-            <audio src={soundfile} autoPlay/>
-        </div>
-        <div id="style-15" className="roomBox scrollbar force-overflow">
-              <div className='row'>
+    componentDidUpdate() {
+      this.checkPlayers()
+      this.checkStartGame()
+    }
+
+
+    countdown() {
+      let isStarted = false
+      let self = this
+      return {
+        start() {
+          if (isStarted) return
+          isStarted = true
+          let interval = setInterval(() => {
+            if (self.state.counter === 0) {
+              clearInterval(interval)
+              console.log('ke room mas')
+              self.props.history.push('/game')
+              return
+            }
+            self.setState({
+              countdownStart: true,
+              counter: self.state.counter - 1
+            })
+          }, 1000)
+        }
+      }
+    }
+
+
+    render() {
+      return (
+        <>
+          <div>
+            <audio src={soundfile} autoPlay />
+          </div>
+          <div id="style-15" className="roomBox scrollbar force-overflow">
+            <div className='row'>
+              {
+                this.state.countdownStart &&
+                <div className='col s12 m12 l12'>
+                  <div>
+                    <audio src={SoundCountdown} autoPlay />
+                  </div>
                   {
-                    this.state.countdownStart &&
-                    <div className='col s12 m12 l12'>
+                    this.state.counter === 0 &&
+                    (
                       <div>
-                        <audio src={SoundCountdown} autoPlay/>
-                      </div>
-                      {
-                        this.state.counter === 0 &&
                         <h1 style={countdownStyle}>Go</h1>
-                      }
-                      {
-                        this.state.counter > 0 &&
-                        <h1 style={countdownStyle}>{this.state.counter}</h1>
-                      }
-                    </div>
+                        <h4>Your Enemy: {this.state.enemy.name}</h4>
+                        <img alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} />
+                      </div>
+                    )
                   }
                   {
-                    !this.state.countdownStart &&
-                    <div className='col s12 m12 l12'>
-                      <LoadingBlock />
-                      <span style={waitingStyle}>Waiting another player...</span>
-                    </div>
+                    this.state.counter > 0 && 
+                    (
+                      <div>
+                        <h1 style={countdownStyle}>{this.state.counter}</h1>
+                        <h4>Your Enemy: {this.state.enemy.name}</h4>
+                        <img alt={this.state.enemy.name} src={`${HOST}/userimg/${this.state.enemy.name}.png`} />
+                      </div>
+                    )
                   }
-              </div>      
+                </div>
+              }
+              {
+                !this.state.countdownStart &&
+                <div className='col s12 m12 l12'>
+                  <LoadingBlock />
+                  <span style={waitingStyle}>Waiting another player...</span>
+                </div>
+              }
             </div>
-      </>
-    )
-  }
-})
+          </div>
+        </>
+      )
+    }
+  })
 
