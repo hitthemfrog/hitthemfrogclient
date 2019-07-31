@@ -14,6 +14,8 @@ export class Room extends Component {
     this.state = ({
       avail_rooms: [],
       inputRoomName: '',
+      selectGameType: 'CLASSIC',
+      selectGameLevel: 'NORMAL',
       playerName: localStorage.getItem('htf_username'),
       statusUserName: localStorage.getItem('htf_username'),
       statusCreateRoom: false
@@ -42,10 +44,13 @@ export class Room extends Component {
   cobaBikinRoom = (e) => {
     e.preventDefault();
     let roomName = this.state.inputRoomName
+    let gameType = this.state.selectGameType
+    let gameLevel = this.state.selectGameLevel
+
     localStorage.setItem('htf_roomname', roomName)
     if (this.state.inputRoomName !== '') {
       let self = this
-      this.props.socket.emit('joinRoom', { roomName, playerName: localStorage.getItem('htf_username') }, function (val) {
+      this.props.socket.emit('joinRoom', { roomName, playerName: localStorage.getItem('htf_username'), gameType, gameLevel }, function (val) {
         if (val) {
           self.props.history.push('/waitingRoom')
         } else {
@@ -56,6 +61,10 @@ export class Room extends Component {
       })
     }
   }
+
+  // onChangeGameType = (e) => this.setState({ [e.target.name]: e.target.value })
+
+  // onChangeGameLevel = (e) => this.setState({ [e.target.name]: e.target.value })
 
   componentDidMount() {
     this.props.socket.emit('checkRoom')
@@ -95,6 +104,15 @@ export class Room extends Component {
                       onChange={this.onChange}
                       type="text"
                     />
+                    <select style={styleSelect} name="selectGameType" value={this.state.selectGameType} onChange={this.onChange}>
+                      <option value='CLASSIC'>CLASSIC</option>
+                      <option value='RANDOM'>RANDOM</option>
+                    </select>
+                    <select style={styleSelect} name="selectGameLevel" value={this.state.selectGameLevel} onChange={this.onChange}>
+                      <option value='EASY'>EASY</option>
+                      <option value='NORMAL'>NORMAL</option>
+                      <option value='HARD'>HARD</option>
+                    </select>
                     <button onClick={this.cobaBikinRoom} className="btnnya-main linkStyle" id="new-game-button">Create Room</button>
                     <div id="toast"><div id="img"> <i className="material-icons">error</i></div><div id="desc">Please fill a room name..</div></div>
                   </form>
@@ -146,7 +164,7 @@ const styleInput = {
   width: 250,
   // marginTop: 290,
   padding: '5px',
-  fontSize: '24px',
+  fontSize: '20px',
   marginRight: '10px',
   borderWidth: '2px',
   borderColor: 'green',
@@ -156,6 +174,12 @@ const styleInput = {
   borderRadius: '15px',
   boxShadow: '1px 0px 5px rgba(16,16,66,0.75)',
   textShadow: '1px 1px 1px rgba(105, 53, 53, 0.75)'
+}
+
+const styleSelect = {
+  ...styleInput,
+  marginRight: '20px',
+  display: 'block'
 }
 
 const mapStateToProps = (state) => {
