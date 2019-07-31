@@ -60,3 +60,17 @@ export function removeAllObjects(scene) {
   let scenes = scene.children.filter(scn => scn.type !== 'HemisphereLight')
   scenes.forEach(scn => scene.remove(scn))
 }
+
+export function getSpeedLevel() {
+  let index = store.getState().rooms.findIndex(room => room.name === localStorage.getItem('htf_roomname'))
+  let speedLevel =  store.getState().rooms[index].gameLevel
+
+  switch (speedLevel) {
+    case 'EASY': speedLevel = 5000; break;
+    case 'NORMAL': speedLevel = 3000; break;
+    case 'HARD': speedLevel = 1500; break;
+    default: speedLevel = 3000
+  }
+
+  return speedLevel
+}
