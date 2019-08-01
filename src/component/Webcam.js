@@ -1,6 +1,16 @@
 import React from 'react';
 import Webcam from 'react-webcam';
 
+const imageStyle = {
+  marginTop: '20px',
+  width: '300px',
+  height: '100%',
+  borderWidth: '4px',
+  borderColor: 'white',
+  borderStyle: 'dashed',
+  borderRadius: '15px',
+}
+
 class WebCamCapture extends React.Component {
   setRef = webcam => {
     this.webcam = webcam;
@@ -34,6 +44,7 @@ class WebCamCapture extends React.Component {
     return (
       <div>
         <Webcam
+          style={imageStyle}
           audio={false}
           height={'100%'}
           ref={this.setRef}
