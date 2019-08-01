@@ -20,8 +20,8 @@ const waitingStyle = {
 
 const imageStyle = {
     marginTop: '20px',
-    width: '300px',
-    height: '100%',
+    width: '70%',
+    // height: '100%',
     borderWidth: '4px',
     borderColor: 'white',
     // color: '#434343',
