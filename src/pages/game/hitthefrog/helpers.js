@@ -1,4 +1,17 @@
-// import store from '../../../store/store'
+import store from '../../../store/store'
+import HOST from '../../../host'
+
+export function getPlayersTextureUrl() {
+  let currentPlayer = localStorage.getItem('htf_username')
+  let currentRoom = localStorage.getItem('htf_roomname')
+  let { rooms } = store.getState()
+  let room = rooms.find(e => e.name === currentRoom)
+  let otherPlayers = room.players.filter(e => e.name !== currentPlayer)
+  let otherPlayerName = otherPlayers[0] && otherPlayers[0].name
+  let player1Url = `${HOST}/userimg/${currentPlayer}.png`
+  let player2Url = `${HOST}/userimg/${otherPlayerName}.png`
+  return [player1Url, player2Url]
+}
 
 export function removeObjectOnIntersect(scene, intersects) {
   intersects.forEach(intersect => {
@@ -17,10 +30,6 @@ export function removeObjectOnIntersect(scene, intersects) {
       scene.remove(intersect.object)
     }
   })
-}
-
-export function defaultPaint() {
-  
 }
 
 export function paintObjectOnIntersect(scene, intersects) {
@@ -46,4 +55,18 @@ export function paintObjectOnIntersect(scene, intersects) {
 export function removeAllObjects(scene) {
   let scenes = scene.children.filter(scn => scn.type !== 'HemisphereLight')
   scenes.forEach(scn => scene.remove(scn))
+}
+
+export function getSpeedLevel() {
+  let index = store.getState().rooms.findIndex(room => room.name === localStorage.getItem('htf_roomname'))
+  let speedLevel =  store.getState().rooms[index].gameLevel
+
+  switch (speedLevel) {
+    case 'EASY': speedLevel = 5000; break;
+    case 'NORMAL': speedLevel = 3000; break;
+    case 'HARD': speedLevel = 1500; break;
+    default: speedLevel = 3000
+  }
+
+  return speedLevel
 }

@@ -75,6 +75,7 @@ export function reducer (state = defaultState, action) {
       state.playerScores = []
       state.hitScore = 0
       state.missScore = 0
+      state.frogs = []
       return {...state}
     }
 

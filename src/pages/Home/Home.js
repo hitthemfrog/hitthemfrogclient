@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
-import soundfile from '../../sound/sountrack.mp3'
+import soundfile from '../../sound/sountrack_mini.mp3'
+import frogSound from '../../sound/frogsoundeffect.mp3'
+import LoadingBlock from '../../component/Loading2'
 import WebCamCapture from '../../component/Webcam'
 import axios from 'axios'
 import host from '../../host'
 import IconUser from '../../image/frog-transparent-pixel-art-1.gif'
 import { css } from '@emotion/core';
-// import { ClipLoader } from 'react-spinners';
-// Another way to import
-import ClipLoader from 'react-spinners/ClipLoader';
 
 import './Home.css';
 
@@ -18,20 +16,24 @@ const override = css`
     border-color: gray;
 `;
 
+
 export class HomePage extends Component {
     state = {
         inputUserName: '',
         webcamIsActive: false,
-        isLoading: false
+        isLoading: false,
+        errMessage: '',
+        dataReady: false
         // statusUserName: false
     }
 
     validateUserName = async (e) => {
         e.preventDefault();
-        console.log('validateUserName', this.state.inputUserName)
+        let audioButton = new Audio();
+        audioButton.src = frogSound
+        audioButton.play()
         if (this.state.inputUserName === undefined || this.state.inputUserName === '' ){
-            console.log('nama blum diisi mas')
-            this.launch_toast()
+            this.launch_toast('Please Input your name..')
         } else {
             let formData = this.webcam.capture(this.state.inputUserName)
             try {
@@ -42,29 +44,21 @@ export class HomePage extends Component {
                 })
                 localStorage.setItem('htf_username', this.state.inputUserName)
                 this.props.history.push('/room')
+                
             } catch (err) {
-                alert('username udah ada')
-                console.log('go to room list')
-                console.log(this.state.inputUserName)
+                this.launch_toast('Username already exist')
             }
         }
     }
-
-    // routerPushToRoom(){
-    //     this.setState({
-    //         statusUserName: true
-    //     })
-    // }
     
     onChange = (e) => this.setState({
         [e.target.name]: e.target.value
     })
 
-    changeInputUserName(value){
-        console.log(value)
-    }
-
-    launch_toast() {
+    launch_toast(message) {
+        this.setState({
+            errMessage: message
+        })
         var x = document.getElementById("toast")
         x.className = "show";
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
@@ -72,14 +66,14 @@ export class HomePage extends Component {
 
     cekUserName() {
         let userNameLogin = localStorage.getItem('htf_username')
-        console.log(userNameLogin, " adalah ")
         if (userNameLogin) {
-            // this.routerPushToRoom()
             this.props.history.push('/room')
         }
     }
 
     componentDidMount() {
+        let backsoundAudio = new Audio();
+        backsoundAudio.src = soundfile
         this.setState({
             isLoading: true
         })
@@ -90,15 +84,12 @@ export class HomePage extends Component {
                 isLoading: false
             })
 
-            console.log('WEBCAM IS ACTIVE',this.state.webcamIsActive);
         })
         .catch((err) => {
-            console.log('GA ADAAA');
             this.setState({
                 webcamIsActive: false,
                 isLoading: false
             })
-            console.log('WEBCAM IS ACTIVE',this.state.webcamIsActive)
         })
         this.cekUserName()
     }
@@ -109,7 +100,7 @@ export class HomePage extends Component {
             <>
             {
                 <div>
-                    <audio src={soundfile} autoPlay/>
+                    <audio src={soundfile} autoPlay loop/>
                 </div>
             }
             {
@@ -124,15 +115,22 @@ export class HomePage extends Component {
                         </div>
                         <div>
                             {   
-                            this.state.webcamIsActive == false
-                            ? <h4 style={webcamMessage}>Turn on your webcam first</h4>
+                            this.state.webcamIsActive === false
+                            ?
+                            <>
+                            <LoadingBlock /> 
+                            <h4 style={webcamMessage}>Turn on your webcam first</h4>
+                            </>
                             :<WebCamCapture ref={ref => this.webcam = ref }/>
-                            }
+                        }
                         </div>
-                        
+                        <div>
+                            {/* {this.state.webcamIsActive == false && } */}
+                        {/* <WebCamCapture ref={ref => this.webcam = ref }/> */}
+                        </div>
                         <div >
                             {   
-                            this.state.webcamIsActive == true
+                            this.state.webcamIsActive === true
                             ? <form onSubmit={this.validateUserName}>
                             <input
                                 style={styleInput}
@@ -144,31 +142,17 @@ export class HomePage extends Component {
                             />
                                 <div id="toast">
                                     <div id="img"> <i className="material-icons">error</i></div>
-                                    <div id="desc">Please Input your name..</div>
+                                    <div id="desc">{this.state.errMessage}</div>
                                 </div>
                                 <button onClick={this.validateUserName} className="btnnya-main linkStyle" id="new-game-button">Submit</button>
+                                
                                 </form>
                             :null
-                            }
-                        </div>
-                        <div>
-                            { this.state.isLoading && <ClipLoader
-                                css={override}
-                                sizeUnit={"px"}
-                                size={150}
-                                color={'#123abc'}
-                                loading={this.state.loading}
-                                />
                             }
                         </div>
                         
                     </div>
                 </div>
-            }
-            {
-                // this.state.statusUserName
-                // &&
-                // <Redirect to='/room' />
             }
             </>
         )

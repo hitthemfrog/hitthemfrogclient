@@ -1,6 +1,6 @@
 import store from '../../../store/store'
 import { actions } from '../../../store/game.action.reducer.type'
-import { paintObjectOnIntersect, removeAllObjects } from './helpers'
+import { paintObjectOnIntersect, removeAllObjects, getSpeedLevel } from './helpers'
 import initModels from './init.models'
 
 export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreHud, socket, history) {
@@ -17,6 +17,9 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
   let timer = 0
   let number =6
   let isGameOver = false
+  
+  let speedLevel = getSpeedLevel()
+  let yDirection = 0.065
 
   function loop (currentTime) {
     let state = store.getState()
@@ -26,6 +29,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     if (isGameFinished.winner) {
       history.push('/gameOver')
       isGameOver = true
+      return
     }
 
     
@@ -45,7 +49,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
     setScoreHud(playerScores[0], playerScores[1], number)
 
-    if (delta >= 3000) {
+    if (delta >= speedLevel) {
       store.dispatch(actions.setClickedIntersections([]))
       number -=1
       removeAllObjects(scene)
@@ -58,8 +62,9 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
 
       const roomName = localStorage.getItem('htf_roomname')
       const playerName = localStorage.getItem('htf_username')
-      console.log(store.getState().frogs)
       socket.emit('setPlayerScore', { room: roomName, player: playerName, hit: state.hitScore, miss: state.missScore })
+
+      yDirection = -yDirection
     }
 
     if (!isGameOver) {
@@ -67,7 +72,7 @@ export default function (scene, renderer, camera, sceneHud, cameraHud, setScoreH
     }
 
     if (frogs) frogs.forEach(f => {
-      f.rotation.y += 0.065
+      f.rotation.y += yDirection
     })
 
     paintObjectOnIntersect(scene, intersects)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import BackgroundPanel from '../../image/5a2b21aee7d055.0146630215127761109495.png'
+import frogSound from '../../sound/frogsoundeffect.mp3'
 
 import './Room.css';
 
@@ -19,7 +19,7 @@ export class RoomList extends Component {
         <div className="col s12 m12">
           <div className="card" style={panelStyle}>
             <div className="card-image hoverable">
-              <img style={roomNameStyle} src={BackgroundPanel}/>
+              <img style={roomNameStyle} src={BackgroundPanel} alt="background_panel"/>
                 <div className="centered">
                   <h4 className='roomNameStyle'>{this.props.data.name}<br/></h4>
                     {
@@ -27,11 +27,13 @@ export class RoomList extends Component {
                       &&
                       <>
                       <button onClick={() => { 
+                        let audioButton = new Audio();
+                        audioButton.src = frogSound
+                        audioButton.play()
                         let self = this
                         localStorage.setItem('htf_roomname', this.props.data.name)
                         this.props.socket.emit('joinRoom', { roomName: this.props.data.name, playerName: localStorage.getItem('htf_username') }, function (val) {
                           if (val) {
-                            console.log('masuk if waiting room')
                             self.props.history.push('/waitingRoom')
                           } else {
                             /**
@@ -41,14 +43,16 @@ export class RoomList extends Component {
                         })
                       }}
                       className="menu__link"
-                      data-hover="Go">Join</button>
+                      data-hover="Go">JOIN</button>
+                      <br/>
+                      <span className='gameLevelTypeStyle'>{this.props.data.gameType}, {this.props.data.gameLevel}</span>
                       </>
                     }
                     {
                       (this.props.data.gameStatus === 'STARTED')
                       &&
                       <>
-                      <span class="menu__link" data-hover="Sorry">Playing</span>
+                      <span className="menu__link" data-hover="Sorry">Playing</span>
                       </>
                     }
                 </div>
@@ -69,6 +73,7 @@ const panelStyle={
 
 const roomNameStyle = {
   // marginTop: '-100px',
+  marginTop:'5px',
   verticalAlign:'middle'
 }
 

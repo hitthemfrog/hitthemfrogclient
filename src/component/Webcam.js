@@ -1,6 +1,15 @@
 import React from 'react';
 import Webcam from 'react-webcam';
-import axios from 'axios';
+
+const imageStyle = {
+  marginTop: '20px',
+  width: '300px',
+  height: '100%',
+  borderWidth: '4px',
+  borderColor: 'white',
+  borderStyle: 'dashed',
+  borderRadius: '15px',
+}
 
 class WebCamCapture extends React.Component {
   setRef = webcam => {
@@ -35,11 +44,12 @@ class WebCamCapture extends React.Component {
     return (
       <div>
         <Webcam
+          style={imageStyle}
           audio={false}
-          height={250}
+          height={'100%'}
           ref={this.setRef}
           screenshotFormat="image/png"
-          width={250}
+          width={350}
           videoConstraints={videoConstraints}
         />
       </div>
